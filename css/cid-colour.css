@@ -1,0 +1,61 @@
+.cid-JP .cid-char {
+    color: #d32f2f;
+}
+.cid-KR .cid-char {
+    color: #6245b2;
+}
+.cid-CN .cid-char {
+    color: #ffab00;
+}
+.cid-TW .cid-char {
+    color: #43a047;
+}
+.cid-HK .cid-char {
+    color: #2a3b93;
+}
+
+.cid-JP1 .cid-char {
+    color: #12EAEA;
+    font-family: var(--preview-font-forceJP);
+}
+.cid-JP2 .cid-char {
+    color: #0BA4B3;
+    font-family: var(--preview-font-forceJP);
+}
+.cid-JP3 .cid-char {
+    color: #078197;
+    font-family: var(--preview-font-forceJP);
+}
+.cid-JP4 .cid-char {
+    color: #057089;
+    font-family: var(--preview-font-forceJP);
+}
+.cid-JP0 .cid-char {
+    color: #035E7B;
+    font-family: var(--preview-font-forceJP);
+}
+
+.cid-KR1 .cid-char {
+    color: #E9FF70;
+    font-family: var(--preview-font-forceKR);
+}
+.cid-KR2 .cid-char {
+    color: #D3E368;
+    font-family: var(--preview-font-forceKR);
+}
+.cid-KR3 .cid-char {
+    color: #BCC75F;
+    font-family: var(--preview-font-forceKR);
+}
+.cid-KR4 .cid-char {
+    color: #8F8F4D;
+    font-family: var(--preview-font-forceKR);
+}
+.cid-KR0 .cid-char {
+    color: #351E29;
+    font-family: var(--preview-font-forceKR);
+}
+
+.cid-Mix .cid-char {
+    color: #59344F;
+}
