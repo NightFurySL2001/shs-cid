@@ -167,7 +167,7 @@ function buildRow(unichar){
             cidcell.classList.add("cid-Mix")
             // set cell OT feature
             cidcell.classList.add("jp90")
-            cidcell.setAttribute("lang", "ja")
+            cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
             cidcell.querySelector(".cid-char").innerText = unichar
                 
             cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
@@ -189,7 +189,7 @@ function buildRow(unichar){
             cidcell.classList.add("cid-Mix")
             // set cell OT feature
             cidcell.classList.add("vert")
-            cidcell.setAttribute("lang", "ja")
+            cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
             cidcell.querySelector(".cid-char").innerText = unichar
                 
             cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
@@ -215,14 +215,14 @@ function buildRow(unichar){
                     ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
                     // set cell language
                     cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
-                    cidcell.setAttribute("lang", nameRegion == "JP" ? "ja" : nameRegion == "KR" ? "ko" : ("zh-" + nameRegion))
+                    cidcell.querySelector(".cid-char").setAttribute("lang", nameRegion == "JP" ? "ja" : nameRegion == "KR" ? "ko" : ("zh-" + nameRegion))
                     
                     // set text with IVD
                     cidcell.querySelector(".cid-char").innerText = unichar + String.fromCodePoint(parseInt(nameIVD, 16))
                 } else {
                     // use variant from other unicode
                     cidcell.classList.add("cid-Mix")
-                    cidcell.setAttribute("lang", "ja")
+                    cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
                     cidcell.querySelector(".cid-char").innerText = unichar
                 }
                 
