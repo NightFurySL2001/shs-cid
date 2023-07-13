@@ -82,6 +82,9 @@ const labelMatch = new RegExp(/.\s\((.*)\)/)
 const nameMatch = new RegExp(/u(?:ni)?([0-9A-Fa-f]{4,6})u([0-9A-Fa-f]{4,6})-(.{2})/)
 function buildRow(unichar){
     unidec = unichar.codePointAt(0)
+
+    if (!(unidec in fontMapping)) return document.createTextNode("") //filter non existent unicode in font
+
     unihex = "U+" + parseInt(unidec).toString(16).toUpperCase().padStart(4, '0')
     uniMapping = fontMapping[unidec]
     const block = unicodeCJKBlock(unidec) == null ? 
