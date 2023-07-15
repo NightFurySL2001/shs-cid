@@ -248,13 +248,17 @@ function updateRows(){
     cidRowDisplay.innerHTML = ''
 
     inputChars = searchInput.value
-    if (inputChars.length == 0) {
+    let shownlength = 0, lastseen = ""
+    for (let char of inputChars){
+        if (char.trim() == "") continue // skip white spaces
+        if (char == lastseen) continue
+        cidRowDisplay.appendChild(buildRow(char))
+        shownlength++
+        lastseen = char
+    }
+    if (shownlength == 0) {
         cidRowDisplay.innerHTML = `
             <div class="row"><span class="intro">Search some ideographs to start viewing. Maybe 邊邉?</span></div>
         `
-    }
-    for (let char of inputChars){
-        if (char.trim() == "") continue // skip white spaces
-        cidRowDisplay.appendChild(buildRow(char))
     }
 }
