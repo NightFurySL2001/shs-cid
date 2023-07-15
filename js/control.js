@@ -1,4 +1,3 @@
-const sliders = document.querySelectorAll(".slider");
 const r = document.querySelector(':root');
 
 var fontfamily = "sans"
@@ -16,15 +15,28 @@ async function getFiles(){
 getFiles().then(e => updateRows())
 // get cached files, then show rows
 
+const sliders = document.querySelectorAll(".slider");
 // Update text property and displayed property value for each slider
 sliders.forEach(slider => {
     const sliderIndex = slider.getAttribute("data-index");
     const sliderProperty = slider.getAttribute("data-property");
     const sliderUnit = slider.getAttribute("data-unit");
-    const output = document.querySelector(`.output[data-index="${sliderIndex}"]`);
+    const output = document.querySelector(`.slider-output[data-index="${sliderIndex}"]`);
     slider.oninput = function() {
         r.style.setProperty(sliderProperty, this.value + (sliderUnit == null ? "" : sliderUnit))
-        output.innerText = this.value;
+        output.value = this.value;
+    };
+});
+const textinputs = document.querySelectorAll(".slider-output");
+// Update text property and displayed property value for each slider
+textinputs.forEach(textbox => {
+    const textboxIndex = textbox.getAttribute("data-index");
+    const slider = document.querySelector(`.slider[data-index="${textboxIndex}"]`);
+    const sliderProperty = slider.getAttribute("data-property");
+    const sliderUnit = slider.getAttribute("data-unit");
+    textbox.onchange = function() {
+        r.style.setProperty(sliderProperty, this.value + (sliderUnit == null ? "" : sliderUnit))
+        slider.value = this.value;
     };
 });
 
