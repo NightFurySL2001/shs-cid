@@ -169,13 +169,26 @@ fetchMaps(
             alldata["maps"][unidec]["JP90-CID"] = cid
             return
         } else if (region == "V") {
-            alldata["maps"][unidec]["vert-CID"] = cid
+            if (!("vert-CID" in alldata["maps"][unidec]))
+                alldata["maps"][unidec]["vert-CID"] = {}
+            alldata["maps"][unidec]["vert-CID"]['generic'] = cid
             return
         } else if (region != null && region.endsWith("-V")) {
             const matchedregion = region.match(/(.*)-(.*)/)
             if (!("vert-CID" in alldata["maps"][unidec]))
                 alldata["maps"][unidec]["vert-CID"] = {}
             alldata["maps"][unidec]["vert-CID"][matchedregion[1]] = cid
+            return
+        } else if (region == "HW") {
+            if (!("HW-CID" in alldata["maps"][unidec]))
+                alldata["maps"][unidec]["HW-CID"] = {}
+            alldata["maps"][unidec]["HW-CID"]["generic"] = cid
+            return
+        } else if (region != null && region.startsWith("HW")) {
+            const matchedregion = region.match(/(.*)-(.*)/)
+            if (!("HW-CID" in alldata["maps"][unidec]))
+                alldata["maps"][unidec]["HW-CID"] = {}
+            alldata["maps"][unidec]["HW-CID"][matchedregion[2]] = cid
             return
         }
 
