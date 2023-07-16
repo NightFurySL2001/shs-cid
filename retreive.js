@@ -1,7 +1,8 @@
+#!/usr/bin/env node
 var fs = require('fs');
 
-const fontfamily = "sans"
-const fontver = "release"
+const fontfamily = "sans" // sans or  serif
+const fontver = "release" // or v2.004R
 
 var alldata = {}
 
@@ -161,7 +162,7 @@ fetchMaps(
             uniname = glyphname
             region = null
         } else {
-            const [, uniname, region] = matched
+            [, uniname, region] = matched
         }
 
         if (region == "V") {

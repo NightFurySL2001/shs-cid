@@ -173,7 +173,7 @@ function buildRow(unichar){
             // Clone cell template
             const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
 
-            cidInfo = fontAI0[cidNum]
+            cidInfo = fontAI0[uniMapping["JP90-CID"]]
             cidName = cidInfo["name"]
             // set cell language
             cidcell.classList.add("cid-Mix")
@@ -183,7 +183,7 @@ function buildRow(unichar){
             cidcell.querySelector(".cid-char").innerText = unichar
                 
             cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
-            cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
+            cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["JP90-CID"]
 
             // add the cell into row
             clone.querySelector(".cids").appendChild(cidcell)
@@ -195,7 +195,7 @@ function buildRow(unichar){
             // Clone cell template
             const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
 
-            cidInfo = fontAI0[cidNum]
+            cidInfo = fontAI0[uniMapping["vert-CID"]]
             cidName = cidInfo["name"]
             // set cell language
             cidcell.classList.add("cid-Mix")
@@ -205,7 +205,7 @@ function buildRow(unichar){
             cidcell.querySelector(".cid-char").innerText = unichar
                 
             cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
-            cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
+            cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["vert-CID"]
 
             // add the cell into row
             clone.querySelector(".cids").appendChild(cidcell)
