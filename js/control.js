@@ -182,7 +182,7 @@ function buildRow(unichar){
             cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
             cidcell.querySelector(".cid-char").innerText = unichar
                 
-            cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
+            cidcell.querySelector(".cid-name").innerText = cidName
             cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["JP90-CID"]
 
             // add the cell into row
@@ -190,25 +190,36 @@ function buildRow(unichar){
         }
 
         if ("vert-CID" in uniMapping){
-            // Get cell template
-            const templateCIDcell = document.querySelector("template#sample-cell");
-            // Clone cell template
-            const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
+            if (uniMapping["vert-CID"] instanceof Object)
+                temparr = uniMapping["vert-CID"]
+            else 
+                temparr = {"generic": uniMapping["vert-CID"]}
+            
+            for (let region in temparr){
+                cid = temparr[region]
+                // Get cell template
+                const templateCIDcell = document.querySelector("template#sample-cell");
+                // Clone cell template
+                const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
 
-            cidInfo = fontAI0[uniMapping["vert-CID"]]
-            cidName = cidInfo["name"]
-            // set cell language
-            cidcell.classList.add("cid-Mix")
-            // set cell OT feature
-            cidcell.classList.add("vert")
-            cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
-            cidcell.querySelector(".cid-char").innerText = unichar
-                
-            cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
-            cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["vert-CID"]
+                cidInfo = fontAI0[cid]
+                cidName = cidInfo["name"]
+                // set cell language
+                cidcell.classList.add("cid-Mix")
+                // set cell OT feature
+                cidcell.classList.add("vert")
+                if (region == "generic" || region == "JP")
+                    cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
+                else 
+                    cidcell.querySelector(".cid-char").setAttribute("lang", region == "KR" ? "ko" : ("zh-"+region))
+                cidcell.querySelector(".cid-char").innerText = unichar
+                    
+                cidcell.querySelector(".cid-name").innerText = cidName
+                cidcell.querySelector(".cid-cid").innerText = "\\" + cid
 
-            // add the cell into row
-            clone.querySelector(".cids").appendChild(cidcell)
+                // add the cell into row
+                clone.querySelector(".cids").appendChild(cidcell)
+            }
         }
 
         if ("extra" in uniMapping) {

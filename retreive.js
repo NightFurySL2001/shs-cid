@@ -165,11 +165,17 @@ fetchMaps(
             [, uniname, region] = matched
         }
 
-        if (region == "V") {
+        if (region == "JP90-JP") {
+            alldata["maps"][unidec]["JP90-CID"] = cid
+            return
+        } else if (region == "V") {
             alldata["maps"][unidec]["vert-CID"] = cid
             return
-        } else if (region == "JP90-JP") {
-            alldata["maps"][unidec]["JP90-CID"] = cid
+        } else if (region != null && region.endsWith("-V")) {
+            const matchedregion = region.match(/(.*)-(.*)/)
+            if (!("vert-CID" in alldata["maps"][unidec]))
+                alldata["maps"][unidec]["vert-CID"] = {}
+            alldata["maps"][unidec]["vert-CID"][matchedregion[1]] = cid
             return
         }
 
