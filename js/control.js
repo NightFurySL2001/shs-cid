@@ -281,7 +281,12 @@ function updateRows(){
     }
     if (shownlength == 0) {
         cidRowDisplay.innerHTML = `
-            <div class="row"><span class="intro">Search some ideographs to start viewing. Maybe 邊邉?</span></div>
+            <div class="row"><span class="intro">Search some ideographs to start viewing. Maybe <a href="#" onclick="setDefaultPreview()">邊邉㍿</a>?</span></div>
         `
     }
+}
+
+function setDefaultPreview() {
+    searchInput.value = "邊邉㍿"
+    updateRows()
 }
