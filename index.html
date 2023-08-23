@@ -16,21 +16,21 @@
         <link rel="stylesheet" href="css/cid-colour.css">
         <link rel="stylesheet" href="css/nav.css">
         <link rel="stylesheet" href="css/cid.css">
-        <link rel="stylesheet" href="css/shsans.css">
-        <link rel="stylesheet" href="css/shserif.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/nightfurysl2001/shs-webfont-sans@release/index.css" id="font-sheet-sans">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/nightfurysl2001/shs-webfont-serif@release/index.css" id="font-sheet-serif">
         <style>
             :root {
                 font-family: sans-serif;
 
                 --preview-font-size: 10em;
                 --preview-gap: 2.5em;
-                --preview-sans-fallback: "Source Han Sans VF", "源ノ角ゴシック VF", "Source Han Sans K VF", "본고딕 VF", "Source Han Sans SC VF", "思源黑体 VF", "Source Han Sans TC VF", "思源黑體 VF", "Source Han Sans HC VF", "思源黑體 香港 VF", "Source Han Sans", "源ノ角ゴシック", "Source Han Sans K", "본고딕", "Source Han Sans SC", "思源黑体", "Source Han Sans TC", "思源黑體", "Source Han Sans HC", "思源黑體 香港";
-                --preview-sans-fallback-forceJP: "Source Han Sans VF", "源ノ角ゴシック VF",  "Source Han Sans", "源ノ角ゴシック", "Source Han Sans K VF", "본고딕 VF", "Source Han Sans SC VF", "思源黑体 VF", "Source Han Sans TC VF", "思源黑體 VF", "Source Han Sans HC VF", "思源黑體 香港 VF", "Source Han Sans K", "본고딕", "Source Han Sans SC", "思源黑体", "Source Han Sans TC", "思源黑體", "Source Han Sans HC", "思源黑體 香港";
-                --preview-sans-fallback-forceKR: "Source Han Sans K VF", "본고딕 VF", "Source Han Sans K", "본고딕", "Source Han Sans VF", "源ノ角ゴシック VF", "Source Han Sans SC VF", "思源黑体 VF", "Source Han Sans TC VF", "思源黑體 VF", "Source Han Sans HC VF", "思源黑體 香港 VF", "Source Han Sans", "源ノ角ゴシック", "Source Han Sans SC", "思源黑体", "Source Han Sans TC", "思源黑體", "Source Han Sans HC", "思源黑體 香港";
-                --preview-serif-fallback: "Source Han Serif VF", "源ノ明朝 VF", "Source Han Serif K VF", "본명조 VF", "Source Han Serif SC VF", "思源宋体 VF", "Source Han Serif TC VF", "思源宋體 VF", "Source Han Serif HC VF", "思源宋體 香港 VF", "Source Han Serif", "源ノ明朝", "Source Han Serif K", "본명조", "Source Han Serif SC", "思源宋体", "Source Han Serif TC", "思源宋體", "Source Han Serif HC", "思源宋體 香港";
-                --preview-serif-fallback-forceJP: "Source Han Serif VF", "源ノ明朝 VF", "Source Han Serif", "源ノ明朝", "Source Han Serif K VF", "본명조 VF", "Source Han Serif SC VF", "思源宋体 VF", "Source Han Serif TC VF", "思源宋體 VF", "Source Han Serif HC VF", "思源宋體 香港 VF", "Source Han Serif K", "본명조", "Source Han Serif SC", "思源宋体", "Source Han Serif TC", "思源宋體", "Source Han Serif HC", "思源宋體 香港";
-                --preview-serif-fallback-forceKR: "Source Han Serif K VF", "본명조 VF", "Source Han Serif K", "본명조", "Source Han Serif VF", "源ノ明朝 VF", "Source Han Serif SC VF", "思源宋体 VF", "Source Han Serif TC VF", "思源宋體 VF", "Source Han Serif HC VF", "思源宋體 香港 VF", "Source Han Serif", "源ノ明朝", "Source Han Serif SC", "思源宋体", "Source Han Serif TC", "思源宋體", "Source Han Serif HC", "思源宋體 香港";
-                
+                --preview-sans-fallback: "Source Han Sans";
+                --preview-sans-fallback-forceJP: "Source Han Sans";
+                --preview-sans-fallback-forceKR: "Source Han Sans K";
+                --preview-serif-fallback: "Source Han Serif";
+                --preview-serif-fallback-forceJP: "Source Han Serif";
+                --preview-serif-fallback-forceKR: "Source Han Serif K";
+
                 --preview-font-family: var(--preview-sans-fallback);
                 --preview-font-forceJP: var(--preview-sans-fallback-forceJP);
                 --preview-font-forceKR: var(--preview-sans-fallback-forceKR);
@@ -96,15 +96,20 @@
             <div class="font-choice">
                 <button class="btnFont" data-font-style="sans">Sans</button>
                 <button class="btnFont" data-font-style="serif">Serif</button>
-                <span><strong>Version:</strong> release</span>
+                <span><strong>Version:</strong> 
+                    <select id="version">
+                        <option>release</option>
+                    </select>
+                    <em>Webfont might take a while to load.</em>
+                </span>
                 <br>
                 <input type="range" min="200" max="900" value="400" class="slider" id="text-weight" name="text-weight" data-index="0" data-property="--preview-font-weight">
                 <label for="text-weight">
                     <strong>Weight:</strong>
                     <input type="number" class="slider-output" data-index="0" value="400">
                 </label>
-                <input type="range" min="1" max="20" value="10" class="slider" id="text-weight" name="text-weight" data-index="1" data-property="--preview-font-size" data-unit="em">
-                <label for="text-weight">
+                <input type="range" min="1" max="20" value="10" class="slider" id="text-size" name="text-size" data-index="1" data-property="--preview-font-size" data-unit="em">
+                <label for="text-size">
                     <strong>Font Size:</strong>
                     <input type="number" class="slider-output" data-index="1" value="10">
                 </label>

@@ -1,7 +1,11 @@
 const r = document.querySelector(':root');
 
 var fontfamily = "sans"
-const fontver = "release"
+var fontver = "release"
+const versioning = {
+    "sans": ["1.001R", "1.002R", "1.003R", "1.004R", "2.000R", "2.001R", "2.002R", "2.003R", "2.004R"],
+    "serif": ["1.000R", "1.001R", "2.000R", "2.001R", "2.002R"]
+}
 
 var fontAI0
 var fontMapping
@@ -15,6 +19,8 @@ async function getFiles(){
 getFiles().then(e => updateRows())
 // get cached files, then show rows
 
+
+// Style change for sample character
 const sliders = document.querySelectorAll(".slider");
 // Update text property and displayed property value for each slider
 sliders.forEach(slider => {
@@ -28,7 +34,6 @@ sliders.forEach(slider => {
     };
 });
 const textinputs = document.querySelectorAll(".slider-output");
-// Update text property and displayed property value for each slider
 textinputs.forEach(textbox => {
     const textboxIndex = textbox.getAttribute("data-index");
     const slider = document.querySelector(`.slider[data-index="${textboxIndex}"]`);
@@ -42,12 +47,18 @@ textinputs.forEach(textbox => {
 
 const buttons = document.querySelectorAll(".btnFont");
 
-// Update font family to match sans
+// Update font family to match choice
 buttons.forEach(btn => {
     const fontStyle = btn.getAttribute("data-font-style");
     btn.onclick = function() {
+        // ignore if current sans, then click sans
+        if (fontfamily == fontStyle) return
         // update font style
         fontfamily = fontStyle
+        // set default to release on change
+        fontver = "release"
+        // update version before continue
+        updateVersionDropdown()
 
         // update css variable display
         r.style.setProperty("--preview-font-family", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback"))
@@ -58,6 +69,29 @@ buttons.forEach(btn => {
         getFiles().then(e => updateRows())
     };
 });
+
+// update font version
+const dropdown = document.querySelector("select#version");
+function updateVersionDropdown(){
+    // clear options
+    for (a in dropdown.options) { dropdown.options.remove(0); }
+    // add options
+    dropdown.add(new Option("release", "release", true, true))
+    for (v of versioning[fontfamily]){
+        dropdown.add(new Option(v, v))
+    }
+}
+dropdown.onchange = function(){
+    // update stored version
+    fontver = dropdown.value
+    // update css font ref
+    const sheet = document.querySelector("#font-sheet-" + fontfamily.toLowerCase())
+    sheet.href = "https://cdn.jsdelivr.net/gh/nightfurysl2001/shs-webfont-" + fontfamily + "@" + fontver + "/index.css"
+    // get AI0 and mapping then update display
+    getFiles().then(e => updateRows())
+}
+// init dropdown
+updateVersionDropdown()
 
 function unicodeCJKBlock(unidec){
     if (0x2e80 <= unidec && unidec <= 0x2eff)
@@ -105,186 +139,193 @@ function buildRow(unichar){
 
     // Test to see if the browser supports the HTML template element by checking
     // for the presence of the template element's content attribute.
-    if ("content" in document.createElement("template")) {
-        // Instantiate the table with the existing HTML tbody
-        // and the row with the template
-        const template = document.querySelector("template#sample-row");
+    if (!("content" in document.createElement("template"))) {
+        // Find another way to add the rows to the table because
+        // the HTML template element is not supported.
+        return null
+    }
 
-        // Clone the new row
-        const clone = template.content.firstElementChild.cloneNode(true);
+    // Instantiate the table with the existing HTML tbody
+    // and the row with the template
+    const template = document.querySelector("template#sample-row");
 
-        // replace unicode and info
-        clone.querySelector(".row-unicode").innerText = unihex
-        clone.querySelector(".row-disp-char").innerText = unichar
-        clone.querySelector(".row-block").innerText = block
+    // Clone the new row
+    const clone = template.content.firstElementChild.cloneNode(true);
 
-        // replace cid info
-        cidcells = clone.querySelectorAll(".cid");
+    // replace unicode and info
+    clone.querySelector(".row-unicode").innerText = unihex
+    clone.querySelector(".row-disp-char").innerText = unichar
+    clone.querySelector(".row-block").innerText = block
+
+    // replace cid info
+    cidcells = clone.querySelectorAll(".cid");
     
-        for(let i=0; i < langOrder.length; i++){
-            let cidcell = cidcells[i]
-            cidcell.querySelector(".cid-char").innerText = unichar
-
-            // check if language is correct
-            console.assert(cidcell.querySelector(".cid-lang").innerText == langOrder[i])
-
-            nameMatched = null
-            if (langOrder[i] in uniMapping){
-                // Sans use _, Serif use char
-                if (
-                    uniMapping[langOrder[i]].startsWith(unichar) || 
-                    uniMapping[langOrder[i]].startsWith("_")
-                ){
-                    if (uniMapping[langOrder[i]] == unichar || uniMapping[langOrder[i]] == "_")
-                        // character is source region
-                        cidcell.classList.add("cid-" + langOrder[i])
-                    else {
-                        // match glyph name that are not standard region XX
-                        nameMatched = uniMapping[langOrder[i]].match(labelMatch)[1]
-                        if (nameMatched.includes("uE01")) {
-                            // use variant with IVS
-                            const [, nameUni, nameIVD, nameRegion] = nameMatched.match(nameMatch)
-                            ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
-                            cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
-                        } else {
-                            // use variant from other unicode
-                            cidcell.classList.add("cid-Mix")
-                        }
-                    }
-                } else if (
-                    uniMapping[langOrder[i]].length >= 2 &&
-                    langOrder.includes(uniMapping[langOrder[i]].substring(0,2))
-                ){
-                    // character mapped to other region
-                    cidcell.querySelector(".cid-equiv").innerText = "=" + uniMapping[langOrder[i]]
-                    cidcell.classList.add("cid-" + uniMapping[langOrder[i]].substring(0,2))
-                }
-            }
-            cidNum = uniMapping[langOrder[i] + "-CID"]
-            cidInfo = fontAI0[cidNum]
-
-            cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
-            cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
+    for(let i = 0; i < langOrder.length; i++){
+        // if v1 and HK, remove the cell and do not display
+        if (langOrder[i] == "HK" && fontver.startsWith("1.")){
+            clone.querySelector(".cids").removeChild(cidcells[i])
+            continue
         }
 
-        if ("JP90-CID" in uniMapping){
+        let cidcell = cidcells[i]
+        cidcell.querySelector(".cid-char").innerText = unichar
+
+        // check if language is correct
+        console.assert(cidcell.querySelector(".cid-lang").innerText == langOrder[i])
+
+        nameMatched = null
+        if (langOrder[i] in uniMapping){
+            // Sans use _, Serif use char
+            if (
+                uniMapping[langOrder[i]].startsWith(unichar) || 
+                uniMapping[langOrder[i]].startsWith("_")
+            ){
+                if (uniMapping[langOrder[i]] == unichar || uniMapping[langOrder[i]] == "_")
+                    // character is source region
+                    cidcell.classList.add("cid-" + langOrder[i])
+                else {
+                    // match glyph name that are not standard region XX
+                    nameMatched = uniMapping[langOrder[i]].match(labelMatch)[1]
+                    if (nameMatched.includes("uE01")) {
+                        // use variant with IVS
+                        const [, nameUni, nameIVD, nameRegion] = nameMatched.match(nameMatch)
+                        ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
+                        cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
+                    } else {
+                        // use variant from other unicode
+                        cidcell.classList.add("cid-Mix")
+                    }
+                }
+            } else if (
+                uniMapping[langOrder[i]].length >= 2 &&
+                langOrder.includes(uniMapping[langOrder[i]].substring(0,2))
+            ){
+                // character mapped to other region
+                cidcell.querySelector(".cid-equiv").innerText = "=" + uniMapping[langOrder[i]]
+                cidcell.classList.add("cid-" + uniMapping[langOrder[i]].substring(0,2))
+            }
+        }
+        cidNum = uniMapping[langOrder[i] + "-CID"]
+        cidInfo = fontAI0[cidNum]
+
+        cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
+        cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
+    }
+
+    if ("JP90-CID" in uniMapping){
+        // Get cell template
+        const templateCIDcell = document.querySelector("template#sample-cell");
+        // Clone cell template
+        const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
+
+        cidInfo = fontAI0[uniMapping["JP90-CID"]]
+        cidName = cidInfo["name"]
+        // set cell language
+        cidcell.classList.add("cid-Mix")
+        // set cell OT feature
+        cidcell.classList.add("jp90")
+        cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
+        cidcell.querySelector(".cid-char").innerText = unichar
+            
+        cidcell.querySelector(".cid-name").innerText = cidName
+        cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["JP90-CID"]
+
+        // add the cell into row
+        clone.querySelector(".cids").appendChild(cidcell)
+    }
+
+    if ("vert-CID" in uniMapping){
+        for (let region in uniMapping["vert-CID"]){
+            cid = uniMapping["vert-CID"][region]
             // Get cell template
             const templateCIDcell = document.querySelector("template#sample-cell");
             // Clone cell template
             const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
 
-            cidInfo = fontAI0[uniMapping["JP90-CID"]]
+            cidInfo = fontAI0[cid]
             cidName = cidInfo["name"]
             // set cell language
             cidcell.classList.add("cid-Mix")
             // set cell OT feature
-            cidcell.classList.add("jp90")
-            cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
+            cidcell.classList.add("vert")
+            if (region == "generic" || region == "JP")
+                cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
+            else 
+                cidcell.querySelector(".cid-char").setAttribute("lang", region == "KR" ? "ko" : ("zh-"+region))
             cidcell.querySelector(".cid-char").innerText = unichar
                 
             cidcell.querySelector(".cid-name").innerText = cidName
-            cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["JP90-CID"]
+            cidcell.querySelector(".cid-cid").innerText = "\\" + cid
 
             // add the cell into row
             clone.querySelector(".cids").appendChild(cidcell)
         }
-
-        if ("vert-CID" in uniMapping){
-            for (let region in uniMapping["vert-CID"]){
-                cid = uniMapping["vert-CID"][region]
-                // Get cell template
-                const templateCIDcell = document.querySelector("template#sample-cell");
-                // Clone cell template
-                const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
-
-                cidInfo = fontAI0[cid]
-                cidName = cidInfo["name"]
-                // set cell language
-                cidcell.classList.add("cid-Mix")
-                // set cell OT feature
-                cidcell.classList.add("vert")
-                if (region == "generic" || region == "JP")
-                    cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
-                else 
-                    cidcell.querySelector(".cid-char").setAttribute("lang", region == "KR" ? "ko" : ("zh-"+region))
-                cidcell.querySelector(".cid-char").innerText = unichar
-                    
-                cidcell.querySelector(".cid-name").innerText = cidName
-                cidcell.querySelector(".cid-cid").innerText = "\\" + cid
-
-                // add the cell into row
-                clone.querySelector(".cids").appendChild(cidcell)
-            }
-        }
-
-        if ("HW-CID" in uniMapping){
-            for (let region in uniMapping["HW-CID"]){
-                cid = uniMapping["HW-CID"][region]
-                // Get cell template
-                const templateCIDcell = document.querySelector("template#sample-cell");
-                // Clone cell template
-                const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
-
-                cidInfo = fontAI0[cid]
-                cidName = cidInfo["name"]
-                // set cell language
-                cidcell.classList.add("cid-Mix")
-                // set cell OT feature
-                cidcell.classList.add("hw")
-                if (region == "generic" || region == "JP")
-                    cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
-                else 
-                    cidcell.querySelector(".cid-char").setAttribute("lang", region == "KR" ? "ko" : ("zh-"+region))
-                cidcell.querySelector(".cid-char").innerText = unichar
-                    
-                cidcell.querySelector(".cid-name").innerText = cidName
-                cidcell.querySelector(".cid-cid").innerText = "\\" + cid
-
-                // add the cell into row
-                clone.querySelector(".cids").appendChild(cidcell)
-            }
-        }
-
-        if ("extra" in uniMapping) {
-            for (let cidNum of uniMapping["extra"]) {
-                // Get cell template
-                const templateCIDcell = document.querySelector("template#sample-cell");
-                // Clone cell template
-                const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
-                
-                cidInfo = fontAI0[cidNum]
-                cidName = cidInfo["name"]
-
-                if (cidName.includes("uE01")) {
-                    // use variant with IVS
-                    const [, nameUni, nameIVD, nameRegion] = cidName.match(nameMatch)
-                    ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
-                    // set cell language
-                    cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
-                    cidcell.querySelector(".cid-char").setAttribute("lang", nameRegion == "JP" ? "ja" : nameRegion == "KR" ? "ko" : ("zh-" + nameRegion))
-                    
-                    // set text with IVD
-                    cidcell.querySelector(".cid-char").innerText = unichar + String.fromCodePoint(parseInt(nameIVD, 16))
-                } else {
-                    // use variant from other unicode
-                    cidcell.classList.add("cid-Mix")
-                    cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
-                    cidcell.querySelector(".cid-char").innerText = unichar
-                }
-                
-                cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
-                cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
-
-                // add the cell into row
-                clone.querySelector(".cids").appendChild(cidcell)
-            }
-        }
-    
-        return clone
-    } else {
-        // Find another way to add the rows to the table because
-        // the HTML template element is not supported.
     }
+
+    if ("HW-CID" in uniMapping){
+        for (let region in uniMapping["HW-CID"]){
+            cid = uniMapping["HW-CID"][region]
+            // Get cell template
+            const templateCIDcell = document.querySelector("template#sample-cell");
+            // Clone cell template
+            const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
+
+            cidInfo = fontAI0[cid]
+            cidName = cidInfo["name"]
+            // set cell language
+            cidcell.classList.add("cid-Mix")
+            // set cell OT feature
+            cidcell.classList.add("hw")
+            if (region == "generic" || region == "JP")
+                cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
+            else 
+                cidcell.querySelector(".cid-char").setAttribute("lang", region == "KR" ? "ko" : ("zh-"+region))
+            cidcell.querySelector(".cid-char").innerText = unichar
+                
+            cidcell.querySelector(".cid-name").innerText = cidName
+            cidcell.querySelector(".cid-cid").innerText = "\\" + cid
+
+            // add the cell into row
+            clone.querySelector(".cids").appendChild(cidcell)
+        }
+    }
+
+    if ("extra" in uniMapping) {
+        for (let cidNum of uniMapping["extra"]) {
+            // Get cell template
+            const templateCIDcell = document.querySelector("template#sample-cell");
+            // Clone cell template
+            const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
+            
+            cidInfo = fontAI0[cidNum]
+            cidName = cidInfo["name"]
+
+            if (cidName.includes("uE01")) {
+                // use variant with IVS
+                const [, nameUni, nameIVD, nameRegion] = cidName.match(nameMatch)
+                ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
+                // set cell language
+                cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
+                cidcell.querySelector(".cid-char").setAttribute("lang", nameRegion == "JP" ? "ja" : nameRegion == "KR" ? "ko" : ("zh-" + nameRegion))
+                
+                // set text with IVD
+                cidcell.querySelector(".cid-char").innerText = unichar + String.fromCodePoint(parseInt(nameIVD, 16))
+            } else {
+                // use variant from other unicode
+                cidcell.classList.add("cid-Mix")
+                cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
+                cidcell.querySelector(".cid-char").innerText = unichar
+            }
+            
+            cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
+            cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
+
+            // add the cell into row
+            clone.querySelector(".cids").appendChild(cidcell)
+        }
+    }
+    
+    return clone
 }
 
 const cidRowDisplay = document.querySelector("div#rows-display")

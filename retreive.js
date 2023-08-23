@@ -2,7 +2,7 @@
 var fs = require('fs');
 
 const fontfamily = "sans" // sans or  serif
-const fontver = "release" // or v2.004R
+const fontver = "1.002R" // or 2.004R
 
 var alldata = {}
 
@@ -134,6 +134,11 @@ fetchMaps(
     // loop through everything in AI0 and check for extra glyphs
     Object.entries(arrAI0).forEach( entry => {
         const [cid, value] = entry
+        // bug for sans v2.003 and v2.004
+        if (value[0].includes("    ")){
+            console.log("WARN: detected tab and space error.")
+            return
+        }
         glyphname = value[2]
         orderingCID[cid] = {"name": glyphname, "type": value[0]}
         // check if Adobe-Japan1-6
