@@ -219,6 +219,12 @@ function buildRow(unichar){
                 cidcell.querySelector(".cid-equiv").innerText = "=" + uniMapping[langOrder[i]]
                 cidcell.classList.add("cid-" + uniMapping[langOrder[i]].substring(0,2))
             }
+        } else if (cidName.includes("-")) {
+            const splitted = cidName.split("-")
+            region = splitted[splitted.length - 1]
+            if (langOrder.includes(region)){
+                cidcell.classList.add("cid-" + region.toUpperCase())
+            }
         }
     }
 
