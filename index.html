@@ -60,8 +60,17 @@
                 height: 1em;
                 width: 70%
             }
-            div.warning {
-                font-size: small;
+            #loading-warning{
+                position: fixed;
+                top: 5em;
+                right: .5em;
+                border: 5px dashed red;
+                color: red;
+                font-weight: bold;
+                padding: 0.5em 1em;
+            }
+            .hide {
+                display: none;
             }
 
             footer {
@@ -115,6 +124,7 @@
                 </label>
             </div>
         </div>
+        <div id="loading-warning">Loading version files...</div>
         <div id="rows-display">
             
         </div>

@@ -9,16 +9,20 @@ const versioning = {
 
 var fontAI0
 var fontMapping
-
-async function getFiles(){
-    fontAI0 = await fetch(`${fontfamily}/${fontver}/AI0.json`)
-            .then(response => response.json())
-    fontMapping = await fetch(`${fontfamily}/${fontver}/mapping.json`)
-                .then(response => response.json())
+const notification = document.getElementById("loading-warning")
+function hideLoadingWarning(){
+    var opacity = 1; // Initial opacity
+    var interval = setInterval(function() {
+        if (opacity > 0) {
+            opacity -= 0.1;
+            notification.style.opacity = opacity;
+        } else {
+            clearInterval(interval); // Stop the interval when opacity reaches 0
+            // then hide it
+            notification.classList.add("hide")
+        }
+    }, 100);
 }
-getFiles().then(e => updateRows())
-// get cached files, then show rows
-
 
 // Style change for sample character
 const sliders = document.querySelectorAll(".slider");
@@ -47,7 +51,7 @@ textinputs.forEach(textbox => {
 
 const buttons = document.querySelectorAll(".btnFont");
 
-// Update font family to match choice
+// Update font family (Sans/Serif) to match choice
 buttons.forEach(btn => {
     const fontStyle = btn.getAttribute("data-font-style");
     btn.onclick = function() {
@@ -66,7 +70,10 @@ buttons.forEach(btn => {
         r.style.setProperty("--preview-font-forceKR", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback-forceKR"))
         
         // update data file and then display rows
-        getFiles().then(e => updateRows())
+        getFiles().then(e => {
+            hideLoadingWarning()
+            updateRows()
+        })
     };
 });
 
@@ -88,7 +95,11 @@ dropdown.onchange = function(){
     const sheet = document.querySelector("#font-sheet-" + fontfamily.toLowerCase())
     sheet.href = "https://cdn.jsdelivr.net/gh/nightfurysl2001/shs-webfont-" + fontfamily + "@" + fontver + "/index.css"
     // get AI0 and mapping then update display
-    getFiles().then(e => updateRows())
+    getFiles().then(e => {
+        // hide loading file warning
+        hideLoadingWarning()
+        updateRows()
+    })
 }
 // init dropdown
 updateVersionDropdown()
@@ -382,3 +393,18 @@ function setDefaultPreview() {
     searchInput.value = "邊邉㍿"
     updateRows()
 }
+
+async function getFiles(){
+    // unhide loading file warning
+    notification.classList.remove("hide")
+    fontAI0 = await fetch(`${fontfamily}/${fontver}/AI0.json`)
+            .then(response => response.json())
+    fontMapping = await fetch(`${fontfamily}/${fontver}/mapping.json`)
+                .then(response => response.json())
+}
+getFiles().then(e => {
+    // hide loading file warning
+    hideLoadingWarning()
+    updateRows()
+})
+// get cached files, then show rows
