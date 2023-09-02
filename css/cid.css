@@ -45,23 +45,25 @@
     min-height: calc(var(--preview-font-size) + var(--preview-gap));
 }
 
-.cid-lang {
+.cid-locale {
     position: absolute;
     top: 0;
     left: 0;
+    font-size: small;
+    color: #333;
+    padding: 2px 0;
+}
+.cid-lang {
     padding: 0.2em;
     background-color: grey;
     color: white;
-    font-size: small;
     z-index: 2;
 }
-.cid-equiv{
-    background-color: white;
-    color: #333;
-    border: 1px solid white;
-    margin-left: 0.2em;
-    margin-right: -0.2em;
-    padding: 2px;
+.cid-equiv, .cid-AJ6{
+    padding: 0 0.2em;
+}
+br + .cid-AJ6 {
+    padding-top: 0.3em;
 }
 .cid-char {
     position: absolute;

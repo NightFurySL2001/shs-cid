@@ -126,6 +126,10 @@ function unicodeCJKBlock(unidec){
 const langOrder = ["JP", "KR", "CN", "TW", "HK"]
 const labelMatch = new RegExp(/.\s\((.*)\)/)
 const nameMatch = new RegExp(/u(?:ni)?([0-9A-Fa-f]{4,6})u([0-9A-Fa-f]{4,6})-(.{2})/)
+const isAJ6Div = document.createElement("div")
+isAJ6Div.appendChild(document.createTextNode("AJ6✓"))
+isAJ6Div.classList.add("cid-AJ6")
+
 function buildRow(unichar){
     unidec = unichar.codePointAt(0)
 
@@ -169,11 +173,22 @@ function buildRow(unichar){
 
         let cidcell = cidcells[i]
         cidcell.querySelector(".cid-char").innerText = unichar
+        
+        // insert cid info
+        cidNum = uniMapping[langOrder[i] + "-CID"]
+        cidInfo = fontAI0[cidNum]
+        cidName = cidInfo["name"]
+        cidcell.querySelector(".cid-name").innerText = cidName
+        cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
+        if (cidInfo["isAJ16"]) {
+            cidcell.querySelector(".cid-locale").appendChild(isAJ6Div.cloneNode(true))
+        }
 
         // check if language is correct
         console.assert(cidcell.querySelector(".cid-lang").innerText == langOrder[i])
 
         nameMatched = null
+        // if there is specified mapping eg JP for this unicode
         if (langOrder[i] in uniMapping){
             // Sans use _, Serif use char
             if (
@@ -205,11 +220,6 @@ function buildRow(unichar){
                 cidcell.classList.add("cid-" + uniMapping[langOrder[i]].substring(0,2))
             }
         }
-        cidNum = uniMapping[langOrder[i] + "-CID"]
-        cidInfo = fontAI0[cidNum]
-
-        cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
-        cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
     }
 
     if ("JP90-CID" in uniMapping){
@@ -229,6 +239,9 @@ function buildRow(unichar){
             
         cidcell.querySelector(".cid-name").innerText = cidName
         cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["JP90-CID"]
+        if (cidInfo["isAJ16"]) {
+            cidcell.querySelector(".cid-locale").appendChild(isAJ6Div.cloneNode(true))
+        }
 
         // add the cell into row
         clone.querySelector(".cids").appendChild(cidcell)
@@ -256,6 +269,9 @@ function buildRow(unichar){
                 
             cidcell.querySelector(".cid-name").innerText = cidName
             cidcell.querySelector(".cid-cid").innerText = "\\" + cid
+            if (cidInfo["isAJ16"]) {
+                cidcell.querySelector(".cid-locale").appendChild(isAJ6Div.cloneNode())
+            }
 
             // add the cell into row
             clone.querySelector(".cids").appendChild(cidcell)
@@ -284,6 +300,9 @@ function buildRow(unichar){
                 
             cidcell.querySelector(".cid-name").innerText = cidName
             cidcell.querySelector(".cid-cid").innerText = "\\" + cid
+            if (cidInfo["isAJ16"]) {
+                cidcell.querySelector(".cid-locale").appendChild(isAJ6Div.cloneNode(true))
+            }
 
             // add the cell into row
             clone.querySelector(".cids").appendChild(cidcell)
@@ -319,6 +338,9 @@ function buildRow(unichar){
             
             cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
             cidcell.querySelector(".cid-cid").innerText = "\\" + cidNum
+            if (cidInfo["isAJ16"]) {
+                cidcell.querySelector(".cid-locale").appendChild(isAJ6Div.cloneNode(true))
+            }
 
             // add the cell into row
             clone.querySelector(".cids").appendChild(cidcell)
