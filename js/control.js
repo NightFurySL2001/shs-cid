@@ -11,17 +11,7 @@ var fontAI0
 var fontMapping
 const notification = document.getElementById("loading-warning")
 function hideLoadingWarning(){
-    var opacity = 1; // Initial opacity
-    var interval = setInterval(function() {
-        if (opacity > 0) {
-            opacity -= 0.1;
-            notification.style.opacity = opacity;
-        } else {
-            clearInterval(interval); // Stop the interval when opacity reaches 0
-            // then hide it
-            notification.classList.add("hide")
-        }
-    }, 100);
+    notification.setAttribute( 'data-status', 'hidden' )
 }
 
 // Style change for sample character
@@ -396,7 +386,7 @@ function setDefaultPreview() {
 
 async function getFiles(){
     // unhide loading file warning
-    notification.classList.remove("hide")
+    notification.setAttribute( 'data-status', 'shown' )
     fontAI0 = await fetch(`${fontfamily}/${fontver}/AI0.json`)
             .then(response => response.json())
     fontMapping = await fetch(`${fontfamily}/${fontver}/mapping.json`)

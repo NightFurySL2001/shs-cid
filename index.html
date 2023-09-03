@@ -61,16 +61,32 @@
                 width: 70%
             }
             #loading-warning{
-                position: fixed;
-                top: 5em;
+                position: absolute;
                 right: .5em;
                 border: 5px dashed red;
                 color: red;
                 font-weight: bold;
                 padding: 0.5em 1em;
             }
-            .hide {
-                display: none;
+            #loading-warning[data-status="shown"]{
+                opacity: 1;
+                -webkit-animation: fade 5s;
+                animation: fade 5s;
+            }
+            #loading-warning[data-status="hidden"]{
+                opacity: 0;
+                -webkit-animation: fade 5s;
+                -webkit-animation-direction: reverse;
+                animation: fade 5s;
+                animation-direction: reverse;
+            }
+            @-webkit-keyframes fade {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+            @keyframes fade {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
             }
 
             footer {
@@ -98,6 +114,7 @@
                 </ul>
             </div>
         </nav>
+        <div id="loading-warning">Loading version files...</div>
         <div class="header">
             <div class="searchbar">
                 <input id="searchtext" type="text" placeholder="Search ideographs..." onchange="updateRows()">
@@ -124,7 +141,6 @@
                 </label>
             </div>
         </div>
-        <div id="loading-warning">Loading version files...</div>
         <div id="rows-display">
             
         </div>
