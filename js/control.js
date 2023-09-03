@@ -392,9 +392,9 @@ async function getFiles(){
     // unhide loading file warning
     notification.setAttribute( 'data-status', 'shown' )
     return Promise.all([
-        fetch(`${fontfamily}/${fontver}/AI0.json`)
+        fetch(`https://cdn.jsdelivr.net/gh/NightFurySL2001/shs-cid/${fontfamily}/${fontver}/AI0.json`)
             .then(response => response.json()),
-        fetch(`${fontfamily}/${fontver}/mapping.json`)
+        fetch(`https://cdn.jsdelivr.net/gh/NightFurySL2001/shs-cid/${fontfamily}/${fontver}/mapping.json`)
             .then(response => response.json())
     ]).then(response => {[fontAI0, fontMapping] = response})
 }
