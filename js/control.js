@@ -12,6 +12,10 @@ var fontMapping
 const notification = document.getElementById("loading-warning")
 function hideLoadingWarning(){
     notification.setAttribute( 'data-status', 'hidden' )
+    // reset animation by remove animation, reflow n undo animation
+    notification.style.animation = 'none';
+    notification.offsetHeight; /* trigger reflow */
+    notification.style.animation = null; 
 }
 
 // Style change for sample character
