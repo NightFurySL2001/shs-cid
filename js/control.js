@@ -391,10 +391,12 @@ function setDefaultPreview() {
 async function getFiles(){
     // unhide loading file warning
     notification.setAttribute( 'data-status', 'shown' )
-    fontAI0 = await fetch(`${fontfamily}/${fontver}/AI0.json`)
+    return Promise.all([
+        fetch(`${fontfamily}/${fontver}/AI0.json`)
+            .then(response => response.json()),
+        fetch(`${fontfamily}/${fontver}/mapping.json`)
             .then(response => response.json())
-    fontMapping = await fetch(`${fontfamily}/${fontver}/mapping.json`)
-                .then(response => response.json())
+    ]).then(response => {[fontAI0, fontMapping] = response})
 }
 getFiles().then(e => {
     // hide loading file warning
