@@ -9,6 +9,7 @@ const versioning = {
 
 var fontAI0
 var fontMapping
+var charStandards
 const notification = document.getElementById("loading-warning")
 function hideLoadingWarning(){
     notification.setAttribute( 'data-status', 'hidden' )
@@ -142,9 +143,8 @@ function buildRow(unichar){
 
     unihex = "U+" + parseInt(unidec).toString(16).toUpperCase().padStart(4, '0')
     uniMapping = fontMapping[unidec]
-    const block = unicodeCJKBlock(unidec) == null ? 
-                  fontAI0[fontMapping[unidec]["JP-CID"]]["type"] : // get type of character by default
-                  unicodeCJKBlock(unidec)
+    const block = unicodeCJKBlock(unidec) ?? 
+                  fontAI0[fontMapping[unidec]["JP-CID"]]["type"] // fallback to type of character
 
     // Test to see if the browser supports the HTML template element by checking
     // for the presence of the template element's content attribute.
@@ -165,6 +165,16 @@ function buildRow(unichar){
     clone.querySelector(".row-unicode").innerText = unihex
     clone.querySelector(".row-disp-char").innerText = unichar
     clone.querySelector(".row-block").innerText = block
+
+    // add standards if applicable
+    if (charStandards[unidec.toString()] !== undefined){
+        charStandards[unidec.toString()].forEach((e) => {
+            let spanTag = document.createElement("span");
+            spanTag.classList.add("row-block")
+            spanTag.innerText = e
+            clone.querySelector(".row-header").appendChild(spanTag)
+        })
+    }
 
     // replace cid info
     cidcells = clone.querySelectorAll(".cid");
@@ -391,6 +401,13 @@ function setDefaultPreview() {
 async function getFiles(){
     // unhide loading file warning
     notification.setAttribute( 'data-status', 'shown' )
+
+    if (charStandards == undefined) {
+        await fetch(`https://cdn.jsdelivr.net/gh/NightFurySL2001/shs-cid/js/shs-chr-std.json`)
+        .then(response => response.json())
+        .then(json => {charStandards = json})
+    }
+
     return Promise.all([
         fetch(`https://cdn.jsdelivr.net/gh/NightFurySL2001/shs-cid/${fontfamily}/${fontver}/AI0.json`)
             .then(response => response.json()),
