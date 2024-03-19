@@ -387,9 +387,7 @@ function updateRows(){
         lastseen = char
     }
     if (shownlength == 0) {
-        cidRowDisplay.innerHTML = `
-            <div class="row"><span class="intro">Search some ideographs to start viewing. Maybe <a href="#" onclick="setDefaultPreview()">邊邉㍿</a>?</span></div>
-        `
+        cidRowDisplay.innerHTML = `<div class="row"><span class="intro">Search some ideographs to start viewing. Maybe <a href="#" onclick="setDefaultPreview()">邊邉㍿</a>?</span></div>`
     }
 }
 
