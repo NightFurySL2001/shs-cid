@@ -71,6 +71,7 @@ br + .cid-AJ6 {
     font-family: var(--preview-font-family);
     font-weight: var(--preview-font-weight);
     font-variation-settings: "wght" var(--preview-font-weight);
+    text-spacing-trim: space-all;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
