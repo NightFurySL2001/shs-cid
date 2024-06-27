@@ -430,3 +430,17 @@ getFiles().then(e => {
     updateRows()
 })
 // get cached files, then show rows
+
+// hide warning on click
+const warning = document.querySelector("#warning-banner")
+const warningStorageKey = "warning-1"
+if (localStorage.getItem(warningStorageKey) == "hidden") {
+    // hide warning banner
+    warning.style.display = "none"
+} else {
+    // add on click
+    document.querySelector("#warning-banner-close").onclick = function(){
+        warning.style.display = "none"
+        localStorage.setItem(warningStorageKey, "hidden")
+    }
+}

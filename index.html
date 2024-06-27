@@ -131,9 +131,11 @@
                     <input type="number" class="slider-output" data-index="1" value="10">
                 </label>
             </div>
-            <div style="padding: 6px 0; color: darkred; font-weight: bold;">
+            <div id="warning-banner">
                 已知问题：网页字体在共用字形的码位上可能出现问题（如 U+2FBB），请以右上角的字形数据（或汉字颜色）判断是否显示正确的字形。 <br>
                 Known issue: Webfont might not display correctly on codepoints with glyph sharing e.g. U+2FBB. Please refer to the character data on the top right (or hanzi colour) to determine if the character is displayed correctly.
+                <br>
+                <button id="warning-banner-close">OK, 隐藏 hide this</button>
             </div>
         </div>
         <div id="rows-display">
