@@ -382,6 +382,13 @@ function updateRows(){
     cidRowDisplay.innerHTML = ''
 
     inputChars = searchInput.value
+
+    // regex replace U+ unicode syntax
+    inputChars = inputChars.replace(
+        /U\+([0-9A-F]{4,5})/gi, 
+        (match, p1) => String.fromCodePoint(parseInt(p1, 16))
+    )
+
     let shownlength = 0, lastseen = ""
     for (let char of inputChars){
         if (char.trim() == "") continue // skip white spaces

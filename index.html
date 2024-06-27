@@ -107,13 +107,17 @@
                 <input id="searchtext" type="text" placeholder="Search ideographs..." onchange="updateRows()">
             </div>
             <div class="font-choice">
+                <div style="padding: 3px 0;">
+                    可用 <raw>U+XXXX</raw> 格式输入字符统一码 <em>Use <raw>U+XXXX</raw> to input character Unicode</em>
+                </div>
                 <button class="btnFont" data-font-style="sans">Sans</button>
                 <button class="btnFont" data-font-style="serif">Serif</button>
-                <span><strong>Version:</strong> 
+                <span>
+                    <strong>Version:</strong> 
                     <select id="version">
                         <option>release</option>
                     </select>
-                    <em>Webfont might take a while to load.</em>
+                    网页字体需要时间加载 <em>Webfont might take a while to load.</em>
                 </span>
                 <br>
                 <input type="range" min="200" max="900" value="400" class="slider" id="text-weight" name="text-weight" data-index="0" data-property="--preview-font-weight">
