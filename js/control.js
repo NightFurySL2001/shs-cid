@@ -57,7 +57,11 @@ buttons.forEach(btn => {
         // set default to release on change
         fontver = "release"
         // update version before continue
-        updateVersionDropdown()
+        updateVersionDropdownOnFontFamilyChange()
+
+        // update css font version to ensure use latest version on change
+        const sheet = document.querySelector("#font-sheet-" + fontfamily.toLowerCase())
+        sheet.href = "https://cdn.jsdelivr.net/gh/nightfurysl2001/shs-webfont-" + fontfamily + "@" + fontver + "/index.css"
 
         // update css variable display
         r.style.setProperty("--preview-font-family", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback"))
@@ -74,7 +78,7 @@ buttons.forEach(btn => {
 
 // update font version
 const dropdown = document.querySelector("select#version");
-function updateVersionDropdown(){
+function updateVersionDropdownOnFontFamilyChange(){
     // clear options
     for (a in dropdown.options) { dropdown.options.remove(0); }
     // add options
@@ -97,7 +101,7 @@ dropdown.onchange = function(){
     })
 }
 // init dropdown
-updateVersionDropdown()
+updateVersionDropdownOnFontFamilyChange()
 
 function unicodeCJKBlock(unidec){
     if (0x2e80 <= unidec && unidec <= 0x2eff)
