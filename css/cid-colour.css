@@ -14,6 +14,22 @@
     color: #2a3b93;
 }
 
+.cid-font-override-JP .cid-char {
+    font-family: var(--preview-font-forceJP);
+}
+.cid-font-override-KR .cid-char {
+    font-family: var(--preview-font-forceKR);
+}
+.cid-font-override-CN .cid-char {
+    font-family: var(--preview-font-forceCN);
+}
+.cid-font-override-TW .cid-char {
+    font-family: var(--preview-font-forceTW);
+}
+.cid-font-override-HK .cid-char {
+    font-family: var(--preview-font-forceHK);
+}
+
 .cid-JP1 .cid-char {
     color: #10dede;
     font-family: var(--preview-font-forceJP);

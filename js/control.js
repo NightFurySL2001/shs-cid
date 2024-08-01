@@ -4,8 +4,10 @@ var fontfamily = "sans"
 var fontver = "release"
 const versioning = {
     "sans": ["1.001R", "1.002R", "1.003R", "1.004R", "2.000R", "2.001R", "2.002R", "2.003R", "2.004R"],
-    "serif": ["1.000R", "1.001R", "2.000R", "2.001R", "2.002R"]
+    "serif": ["1.000R", "1.001R", "2.000R", "2.001R", "2.002R", "2.003R"]
 }
+// should only contains characters in official CJK ideographs block
+const charWithMessedUpJP = '戸朌肦壿墫'
 
 var fontAI0
 var fontMapping
@@ -61,12 +63,15 @@ buttons.forEach(btn => {
 
         // update css font version to ensure use latest version on change
         const sheet = document.querySelector("#font-sheet-" + fontfamily.toLowerCase())
-        sheet.href = "https://cdn.jsdelivr.net/gh/nightfurysl2001/shs-webfont-" + fontfamily + "@" + fontver + "/index.css"
+        sheet.href = "https://cdn.jsdelivr.net/gh/nightfurysl2001/shs-webfont-" + fontfamily + "@" + fontver + "/index.min.css"
 
         // update css variable display
         r.style.setProperty("--preview-font-family", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback"))
         r.style.setProperty("--preview-font-forceJP", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback-forceJP"))
         r.style.setProperty("--preview-font-forceKR", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback-forceKR"))
+        r.style.setProperty("--preview-font-forceCN", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback-forceCN"))
+        r.style.setProperty("--preview-font-forceTW", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback-forceTW"))
+        r.style.setProperty("--preview-font-forceHK", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback-forceHK"))
         
         // update data file and then display rows
         getFiles().then(e => {
@@ -183,18 +188,28 @@ function buildRow(unichar){
     // replace cid info
     cidcells = clone.querySelectorAll(".cid");
     
-    for(let i = 0; i < langOrder.length; i++){
+    // for(let i = 0; i < langOrder.length; i++){
+    for(let [langNum, langName] of langOrder.entries()){
         // if v1 and HK, remove the cell and do not display
-        if (langOrder[i] == "HK" && fontver.startsWith("1.")){
-            clone.querySelector(".cids").removeChild(cidcells[i])
+        if (langName == "HK" && fontver.startsWith("1.")){
+            clone.querySelector(".cids").removeChild(cidcells[langNum])
             continue
         }
 
-        let cidcell = cidcells[i]
+        let cidcell = cidcells[langNum]
         cidcell.querySelector(".cid-char").innerText = unichar
+
+        // if char is not in CJK ideograph or char locl mapping is messed up in JP
+        // force use individual language font
+        if (
+            (block != "CJK URO" && !block.startsWith("CJK Ext-")) ||
+            charWithMessedUpJP.includes(unichar)
+        ){
+            cidcell.classList.add("cid-font-override-" + langName)
+        }
         
         // insert cid info
-        cidNum = uniMapping[langOrder[i] + "-CID"]
+        cidNum = uniMapping[langName + "-CID"]
         cidInfo = fontAI0[cidNum]
         cidName = cidInfo["name"]
         cidcell.querySelector(".cid-name").innerText = cidName
@@ -204,41 +219,42 @@ function buildRow(unichar){
         }
 
         // check if language is correct
-        console.assert(cidcell.querySelector(".cid-lang").innerText == langOrder[i])
+        console.assert(cidcell.querySelector(".cid-lang").innerText == langName)
 
         nameMatched = null
         // if there is specified mapping eg JP for this unicode
-        if (langOrder[i] in uniMapping){
+        if (langName in uniMapping){
             // Sans use _, Serif use char
             if (
-                uniMapping[langOrder[i]].startsWith(unichar) || 
-                uniMapping[langOrder[i]].startsWith("_")
+                uniMapping[langName].startsWith(unichar) || 
+                uniMapping[langName].startsWith("_")
             ){
-                if (uniMapping[langOrder[i]] == unichar || uniMapping[langOrder[i]] == "_")
-                    // character is source region
-                    cidcell.classList.add("cid-" + langOrder[i])
+                if (uniMapping[langName] == unichar || uniMapping[langName] == "_")
+                    // character is source region, add colour
+                    cidcell.classList.add("cid-" + langName)
                 else {
                     // match glyph name that are not standard region XX
-                    nameMatched = uniMapping[langOrder[i]].match(labelMatch)[1]
+                    nameMatched = uniMapping[langName].match(labelMatch)[1]
                     if (nameMatched.includes("uE01")) {
-                        // use variant with IVS
+                        // use variant with IVS, add IVS colour
                         const [, nameUni, nameIVD, nameRegion] = nameMatched.match(nameMatch)
                         ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
                         cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
                     } else {
-                        // use variant from other unicode
+                        // use variant colour for other unicode
                         cidcell.classList.add("cid-Mix")
                     }
                 }
             } else if (
-                uniMapping[langOrder[i]].length >= 2 &&
-                langOrder.includes(uniMapping[langOrder[i]].substring(0,2))
+                uniMapping[langName].length >= 2 &&
+                langOrder.includes(uniMapping[langName].substring(0,2))
             ){
-                // character mapped to other region
-                cidcell.querySelector(".cid-equiv").innerText = "=" + uniMapping[langOrder[i]]
-                cidcell.classList.add("cid-" + uniMapping[langOrder[i]].substring(0,2))
+                // character mapped to other region in xlsx table
+                cidcell.querySelector(".cid-equiv").innerText = "=" + uniMapping[langName]
+                cidcell.classList.add("cid-" + uniMapping[langName].substring(0,2))
             }
         } else if (cidName.includes("-")) {
+            // manually detect region based on CID name
             const splitted = cidName.split("-")
             region = splitted[splitted.length - 1]
             if (langOrder.includes(region)){
