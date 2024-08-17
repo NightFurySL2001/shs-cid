@@ -375,6 +375,11 @@ function buildRow(unichar){
                 cidcell.classList.add("cid-Mix")
                 cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
                 cidcell.querySelector(".cid-char").innerText = unichar
+
+                if (cidName.includes("-PW")) {
+                    // latin proportional width glyphs
+                    cidcell.querySelector(".cid-char").setAttribute("lang", "en")
+                }
             }
             
             cidcell.querySelector(".cid-name").innerText = cidInfo["name"]
