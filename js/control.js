@@ -302,9 +302,11 @@ function buildRow(unichar){
             cidcell.classList.add("cid-Mix")
             // set cell OT feature
             cidcell.classList.add("vert")
-            if (region == "generic" || region == "JP")
+            if (region == "generic" || region == "JP" || region == "FW") {
                 cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
-            else 
+                if (region == "FW") 
+                    cidcell.classList.add("fw")
+            } else 
                 cidcell.querySelector(".cid-char").setAttribute("lang", region == "KR" ? "ko" : ("zh-"+region))
             cidcell.querySelector(".cid-char").innerText = unichar
                 

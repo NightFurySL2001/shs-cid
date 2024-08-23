@@ -51,9 +51,15 @@
                 padding: 2em;
                 font-style: italic;
             }
+            .font-choice {
+                padding-top: 3px;
+            }
 
             .vert {
                 font-feature-settings: "vert";
+            }
+            .fw {
+                font-variant-east-asian: full-width;
             }
             .hw {
                 font-feature-settings: "hwid";
@@ -116,9 +122,6 @@
                 <input id="searchtext" type="text" placeholder="Search ideographs..." onchange="updateRows()">
             </div>
             <div class="font-choice">
-                <div style="padding: 3px 0;">
-                    可用 <raw>U+XXXX</raw> 格式输入字符统一码 <em>Use <raw>U+XXXX</raw> to input character Unicode</em>
-                </div>
                 <button class="btnFont" data-font-style="sans">Sans</button>
                 <button class="btnFont" data-font-style="serif">Serif</button>
                 <span>
@@ -126,7 +129,7 @@
                     <select id="version">
                         <option>release</option>
                     </select>
-                    网页字体需要时间加载 <em>Webfont might take a while to load.</em>
+                    可用 <raw>U+XXXX</raw> 格式输入统一码字符 <em>Use <raw>U+XXXX</raw> to input Unicode codepoints</em>
                 </span>
                 <br>
                 <input type="range" min="200" max="900" value="400" class="slider" id="text-weight" name="text-weight" data-index="0" data-property="--preview-font-weight">
@@ -154,6 +157,8 @@
             <span>Copyright © 2023-2024 NightFurySL2001/夜煞之乐2001</span>
             <span>If you like this, please help support me at <a href="https://paypal.me/nightfurysl2001">PayPal</a> or <a href="https://ko-fi.com/nightfurysl2001">Ko-fi</a></span>
             <span>如果您喜欢这个专案，请在 <a href="https://paypal.me/nightfurysl2001">PayPal</a> 或 <a href="https://ko-fi.com/nightfurysl2001">Ko-fi</a> 上支援我，感激不尽～</span>
+            <span>Report page issues on <a href="https://github.com/NightFurySL2001/shs-cid">GitHub</a> 上可提报本页面的错误</span>
+            <br>
             <span>Data from Source Han projects 数据来源于思源计划</span>
             <span>Idea from 灵感来源 <a href="https://github.com/tamcy">@tamcy</a></span>
         </footer>
