@@ -1,5 +1,10 @@
 const r = document.querySelector(':root');
 
+// // should only contains characters in official CJK ideographs block
+// const charWithMessedUpJP = '。，、．：；？！“”‘’戸朌肦壿墫' + 
+// '⼀⼁⼂⼃⼄⼅⼆⼇⼈⼉⼊⼋⼌⼍⼎⼏⼐⼑⼒⼓⼔⼕⼖⼗⼘⼙⼚⼛⼜⼝⼞⼟⼠⼡⼢⼣⼤⼥⼦⼧⼨⼩⼪⼫⼬⼭⼮⼯⼰⼱⼲⼳⼴⼵⼶⼷⼸⼹⼺⼻⼼⼽⼾⼿⽀⽁⽂⽃⽄⽅⽆⽇⽈⽉⽊⽋⽌⽍⽎⽏⽐⽑⽒⽓⽔⽕⽖⽗⽘⽙⽚⽛⽜⽝⽞⽟⽠⽡⽢⽣⽤⽥⽦⽧⽨⽩⽪⽫⽬⽭⽮⽯⽰⽱⽲⽳⽴⽵⽶⽷⽸⽹⽺⽻⽼⽽⽾⽿⾀⾁⾂⾃⾄⾅⾆⾇⾈⾉⾊⾋⾌⾍⾎⾏⾐⾑⾒⾓⾔⾕⾖⾗⾘⾙⾚⾛⾜⾝⾞⾟⾠⾡⾢⾣⾤⾥⾦⾧⾨⾩⾪⾫⾬⾭⾮⾯⾰⾱⾲⾳⾴⾵⾶⾷⾸⾹⾺⾻⾼⾽⾾⾿⿀⿁⿂⿃⿄⿅⿆⿇⿈⿉⿊⿋⿌⿍⿎⿏⿐⿑⿒⿓⿔⿕' +
+// '⺁⺂⺃⺄⺅⺆⺇⺈⺉⺊⺋⺌⺍⺎⺏⺐⺑⺒⺓⺔⺕⺖⺗⺘⺙⺛⺜⺝⺞⺟⺠⺡⺢⺣⺤⺥⺦⺧⺨⺩⺪⺫⺬⺭⺮⺯⺰⺱⺲⺳⺴⺵⺶⺷⺸⺹⺺⺻⺼⺽⺾⺿⻀⻁⻂⻃⻄⻅⻆⻇⻈⻉⻊⻋⻌⻍⻎⻏⻐⻑⻒⻓⻔⻕⻖⻗⻘⻙⻚⻛⻜⻝⻞⻟⻠⻡⻢⻣⻤⻥⻦⻧⻨⻩⻪⻫⻬⻭⻮⻯⻰⻱⻲⻳'
+
 var fontfamily = "sans"
 var fontver = "release"
 const versioning = {
@@ -140,7 +145,7 @@ function unicodeCJKBlock(unidec){
 
 const langOrder = ["JP", "KR", "CN", "TW", "HK"]
 const labelMatch = new RegExp(/.\s\((.*)\)/)
-const nameMatch = new RegExp(/u(?:ni)?([0-9A-Fa-f]{4,6})u([0-9A-Fa-f]{4,6})-(.{2})/)
+const ivdNameMatch = new RegExp(/u(?:ni)?([0-9A-Fa-f]{4,6})u([0-9A-Fa-f]{4,6})-(.{2})/)
 const isAJ6Div = document.createElement("div")
 isAJ6Div.appendChild(document.createTextNode("AJ6✓"))
 isAJ6Div.classList.add("cid-AJ6")
@@ -237,7 +242,7 @@ function buildRow(unichar){
                     nameMatched = uniMapping[langName].match(labelMatch)[1]
                     if (nameMatched.includes("uE01")) {
                         // use variant with IVS, add IVS colour
-                        const [, nameUni, nameIVD, nameRegion] = nameMatched.match(nameMatch)
+                        const [, nameUni, nameIVD, nameRegion] = nameMatched.match(ivdNameMatch)
                         ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
                         cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
                     } else {
@@ -352,6 +357,30 @@ function buildRow(unichar){
         }
     }
 
+    if ("PW-CID" in uniMapping){
+        // Get cell template
+        const templateCIDcell = document.querySelector("template#sample-cell");
+        // Clone cell template
+        const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
+
+        cidInfo = fontAI0[uniMapping["PW-CID"]]
+        cidName = cidInfo["name"]
+        // set cell language
+        cidcell.classList.add("cid-Mix")
+        // set cell OT feature, must be english for proportional ver
+        cidcell.querySelector(".cid-char").setAttribute("lang", "en")
+        cidcell.querySelector(".cid-char").innerText = unichar
+            
+        cidcell.querySelector(".cid-name").innerText = cidName
+        cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["PW-CID"]
+        if (cidInfo["isAJ16"]) {
+            cidcell.querySelector(".cid-locale").appendChild(isAJ6Div.cloneNode(true))
+        }
+
+        // add the cell into row
+        clone.querySelector(".cids").appendChild(cidcell)
+    }
+
     if ("extra" in uniMapping) {
         for (let cidNum of uniMapping["extra"]) {
             // Get cell template
@@ -364,7 +393,7 @@ function buildRow(unichar){
 
             if (cidName.includes("uE01")) {
                 // use variant with IVS
-                const [, nameUni, nameIVD, nameRegion] = cidName.match(nameMatch)
+                const [, nameUni, nameIVD, nameRegion] = cidName.match(ivdNameMatch)
                 ivdnum = (parseInt(nameIVD, 16) - 0xE0100) % 5
                 // set cell language
                 cidcell.classList.add("cid-" + nameRegion + ivdnum.toString())
@@ -375,12 +404,24 @@ function buildRow(unichar){
             } else {
                 // use variant from other unicode
                 cidcell.classList.add("cid-Mix")
-                cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
                 cidcell.querySelector(".cid-char").innerText = unichar
 
-                if (cidName.includes("-PW")) {
-                    // latin proportional width glyphs
-                    cidcell.querySelector(".cid-char").setAttribute("lang", "en")
+                // check if possible to switch to other region, else default jp
+                switch (true){
+                    case cidName.includes("-KR"):
+                        cidcell.querySelector(".cid-char").setAttribute("lang", "ko")
+                        break
+                    case cidName.includes("-CN"):
+                        cidcell.querySelector(".cid-char").setAttribute("lang", "zh-CN")
+                        break
+                    case cidName.includes("-TW"):
+                        cidcell.querySelector(".cid-char").setAttribute("lang", "zh-TW")
+                        break
+                    case cidName.includes("-HK"):
+                        cidcell.querySelector(".cid-char").setAttribute("lang", "zh-HK")
+                        break
+                    default:
+                        cidcell.querySelector(".cid-char").setAttribute("lang", "ja")
                 }
             }
             
