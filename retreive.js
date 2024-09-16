@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 var fs = require('fs');
 
-const fontfamily = "sans" // sans or  serif
-const fontver = "1.002R" // or 2.004R
+const fontfamily = "serif" // sans or  serif
+const fontver = "2.003R" // or 2.004R
 
 var alldata = {}
 
@@ -36,14 +36,18 @@ async function fetchMaps(resourceList) {
     )
 }
 
-headers = ["JP", "KR", "CN", "TW", "HK"]
+function hasRepeats (str, substr) {
+    return (str.match(new RegExp(substr, 'g')) || []).length > 1
+}
+
+headers = ["JP", "KR", "CN", "TW"]
 fetchMaps(
     [
         `https://raw.githubusercontent.com/adobe-fonts/source-han-${fontfamily}/${fontver}/Resources/utf32-jp.map`,
         `https://raw.githubusercontent.com/adobe-fonts/source-han-${fontfamily}/${fontver}/Resources/utf32-kr.map`,
         `https://raw.githubusercontent.com/adobe-fonts/source-han-${fontfamily}/${fontver}/Resources/utf32-cn.map`,
         `https://raw.githubusercontent.com/adobe-fonts/source-han-${fontfamily}/${fontver}/Resources/utf32-tw.map`,
-        `https://raw.githubusercontent.com/adobe-fonts/source-han-${fontfamily}/${fontver}/Resources/utf32-hk.map`,
+        // `https://raw.githubusercontent.com/adobe-fonts/source-han-${fontfamily}/${fontver}/Resources/utf32-hk.map`,
     ]
 )
 .then(response => {
@@ -157,9 +161,22 @@ fetchMaps(
         if (["Hangul", "Kana", "VKana"].includes(value[0]))
             return // do not process hangul or kana
         
-        // init array
-        if (!(unidec in alldata["maps"])) 
+        if (!(unidec in alldata["maps"])) {
+            // no unicode, init mapping array
             alldata["maps"][unidec] = {}
+        } else {
+            // get all used cids corresponding to this unicode
+            let cids = Object.keys(alldata["maps"][unidec])
+            .filter(el => el.endsWith("-CID"))
+            .reduce(
+                (arr, el) => (arr.push(alldata["maps"][unidec][el]), arr),
+                []
+            )
+            if (cids.includes(cid)){
+                // already used the cid in any of the region mappings, skip
+                return
+            }
+        }
 
         // unicode not in region mapping file, only have 1 region/feature use
         const matched = glyphname.match(/(.*?)-(.*)/)
@@ -170,6 +187,7 @@ fetchMaps(
             [, uniname, region] = matched
         }
 
+        // try to parse region to find OT feature
         if (region == "JP90-JP") {
             alldata["maps"][unidec]["JP90-CID"] = cid
             return
@@ -195,28 +213,28 @@ fetchMaps(
                 alldata["maps"][unidec]["HW-CID"] = {}
             alldata["maps"][unidec]["HW-CID"][matchedregion[2]] = cid
             return
+        } else if (region == "PW") {
+            if (!("PW-CID" in alldata["maps"][unidec]))
+                alldata["maps"][unidec]["PW-CID"] = {}
+            alldata["maps"][unidec]["PW-CID"]["generic"] = cid
+            return
         }
 
-        // get all cids corresponding to this unicode
-        let cids = Object.keys(alldata["maps"][unidec])
-        .filter(el => el.endsWith("-CID"))
-        .reduce(
-            (arr, el) => (arr.push(alldata["maps"][unidec][el]), arr),
-            []
+        // did not identified any OT feature
+
+        // remaining cid that are unused
+        if ( // log glyphs as not used, except IVDs abd combining chars
+            !(region == "JP" && glyphname.includes("uE0")) &&
+            !(region == "KR" && glyphname.includes("uE0")) &&
+            !hasRepeats(glyphname, "uni") 
         )
+            console.warn("WARN: ", glyphname, "is not used in mapping files")
         
-        if (!(cids.includes(cid))){
-            // cid that are not in region-map but have region
-            if (uniname == buildNameFromUni(unidec) && ["JP", "KR", "CN", "TW", "HK"].includes(region)){
-                alldata["maps"][unidec][region] = glyphname
-                alldata["maps"][unidec][region+"-CID"] = cid
-            } else {
-                // cid that are extra
-                if (!("extra" in alldata["maps"][unidec]))
-                    alldata["maps"][unidec]["extra"] = []
-                alldata["maps"][unidec]["extra"].push(cid)
-            }
-        }
+        // add to extra
+        if (!("extra" in alldata["maps"][unidec]))
+            alldata["maps"][unidec]["extra"] = []
+
+        alldata["maps"][unidec]["extra"].push(cid)
     })
     if (!fs.existsSync(`${fontfamily}/${fontver}`)) {
         fs.mkdirSync(`${fontfamily}/${fontver}`, {recursive: true});
