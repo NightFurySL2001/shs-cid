@@ -373,9 +373,6 @@ function buildRow(unichar){
             
         cidcell.querySelector(".cid-name").innerText = cidName
         cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["PW-CID"]
-        if (cidInfo["isAJ16"]) {
-            cidcell.querySelector(".cid-locale").appendChild(isAJ6Div.cloneNode(true))
-        }
 
         // add the cell into row
         clone.querySelector(".cids").appendChild(cidcell)
