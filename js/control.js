@@ -153,7 +153,7 @@ isAJ6Div.classList.add("cid-AJ6")
 function buildRow(unichar){
     unidec = unichar.codePointAt(0)
 
-    if (!(unidec in fontMapping)) return document.createTextNode("") //filter non existent unicode in font
+    if (!(unidec in fontMapping)) return null //filter non existent unicode in font
 
     unihex = "U+" + parseInt(unidec).toString(16).toUpperCase().padStart(4, '0')
     uniMapping = fontMapping[unidec]
@@ -456,10 +456,12 @@ function updateRows(){
     )
 
     let shownlength = 0, lastseen = ""
-    for (let char of inputChars){
+    for (const char of inputChars){
         if (char.trim() == "") continue // skip white spaces
         if (char == lastseen) continue
-        cidRowDisplay.appendChild(buildRow(char))
+        let row = buildRow(char)
+        if (!row) continue // skip non existent unicode in font
+        cidRowDisplay.appendChild(row)
         shownlength++
         lastseen = char
     }
