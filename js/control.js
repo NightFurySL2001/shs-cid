@@ -140,6 +140,8 @@ function unicodeCJKBlock(unidec){
         return "CJK Ext-G"
     if (0x31350 <= unidec && unidec <= 0x323af)
         return "CJK Ext-H"
+    if (0x2EBF0 <= unidec && unidec <= 0x2EE5F)
+        return "CJK Ext-I"
     return null
 }
 
