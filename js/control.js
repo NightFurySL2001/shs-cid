@@ -8,7 +8,7 @@ const r = document.querySelector(':root');
 var fontfamily = "sans"
 var fontver = "release"
 const versioning = {
-    "sans": ["1.001R", "1.002R", "1.003R", "1.004R", "2.000R", "2.001R", "2.002R", "2.003R", "2.004R"],
+    "sans": ["1.001R", "1.002R", "1.003R", "1.004R", "2.000R", "2.001R", "2.002R", "2.003R", "2.004R", "2.005R"],
     "serif": ["1.000R", "1.001R", "2.000R", "2.001R", "2.002R", "2.003R"]
 }
 // should only contains characters in official CJK ideographs block
