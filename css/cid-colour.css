@@ -68,10 +68,76 @@
     font-family: var(--preview-font-forceKR);
 }
 .cid-KR0 .cid-char {
-    color: #351E29;
+    color: #525126;
     font-family: var(--preview-font-forceKR);
 }
 
 .cid-Mix .cid-char {
     color: #59344F;
+}
+
+
+#rows-display.outline-text .cid-JP .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #d32f2f;
+}
+#rows-display.outline-text .cid-KR .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #6245b2;
+}
+#rows-display.outline-text .cid-CN .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #ffab00;
+}
+#rows-display.outline-text .cid-TW .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #43a047;
+}
+#rows-display.outline-text .cid-HK .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #2a3b93;
+}
+#rows-display.outline-text .cid-JP1 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #10dede;
+}
+#rows-display.outline-text .cid-JP2 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #0BA4B3;
+}
+#rows-display.outline-text .cid-JP3 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #078197;
+}
+#rows-display.outline-text .cid-JP4 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #057089;
+}
+#rows-display.outline-text .cid-JP0 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #035E7B;
+}
+#rows-display.outline-text .cid-KR1 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #E9FF70;
+}
+#rows-display.outline-text .cid-KR2 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #D3E368;
+}
+#rows-display.outline-text .cid-KR3 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #BCC75F;
+}
+#rows-display.outline-text .cid-KR4 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #8F8F4D;
+}
+#rows-display.outline-text .cid-KR0 .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #525126;
+}
+#rows-display.outline-text .cid-Mix .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #59344F;
 }
