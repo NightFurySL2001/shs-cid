@@ -68,7 +68,7 @@ buttons.forEach(btn => {
 
         // update css font version to ensure use latest version on change
         const sheet = document.querySelector("#font-sheet-" + fontfamily.toLowerCase())
-        sheet.href = `https://cdn.jsdelivr.net/gh/nightfurysl2001/webfont-sh${fontfamily}@${fontver}/index.css`
+        sheet.href = `https://cdn.jsdelivr.net/gh/nightfurysl2001/webfont-sh-${fontfamily}@${fontver}/index.css`
 
         // update css variable display
         r.style.setProperty("--preview-font-family", getComputedStyle(document.body).getPropertyValue("--preview-" + fontStyle + "-fallback"))
@@ -102,7 +102,7 @@ dropdown.onchange = function(){
     fontver = dropdown.value
     // update css font ref
     const sheet = document.querySelector("#font-sheet-" + fontfamily.toLowerCase())
-    sheet.href = `https://cdn.jsdelivr.net/gh/nightfurysl2001/webfont-sh${fontfamily}@${fontver}/index.css`
+    sheet.href = `https://cdn.jsdelivr.net/gh/nightfurysl2001/webfont-sh-${fontfamily}@${fontver}/index.css`
     // get AI0 and mapping then update display
     getFiles().then(e => {
         // hide loading file warning
