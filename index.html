@@ -73,10 +73,10 @@
 
             .searchbar input{
                 display: block;
-                margin: auto 0;
                 padding: 1em;
-                height: 1em;
-                width: 70%
+                height: 3.5em;
+                width: 100%;
+                box-sizing: border-box;
             }
             #loading-warning{
                 position: absolute;
@@ -85,6 +85,8 @@
                 color: red;
                 font-weight: bold;
                 padding: 0.5em 1em;
+                background-color: white;
+                z-index: 1000;
             }
             #loading-warning[data-status="shown"]{
                 opacity: 1;
@@ -251,6 +253,16 @@
     <!-- <script src="js/control.js"></script> -->
     <script src="https://cdn.jsdelivr.net/gh/NightFurySL2001/shs-cid/js/control.min.js"></script>
     <script>
+        // focus on search input on press slash
+        document.getElementById('searchtext').focus();
+        document.addEventListener('keydown', function (e) {
+            if (e.key === '/') {
+                e.preventDefault();
+                document.getElementById('searchtext').focus();
+            }
+        });
+        
+        // toggle outline text
         document.getElementById('outline-toggle').addEventListener('change', function (e) {
             if (e.target.checked) {
                 document.getElementById('rows-display').classList.add('outline-text');
