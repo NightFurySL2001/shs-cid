@@ -295,11 +295,12 @@ function buildRow(unichar){
         clone.querySelector(".cids").appendChild(cidcell)
     }
 
+    // Get cell template
+    const templateCIDcell = document.querySelector("template#sample-cell");
+
     if ("vert-CID" in uniMapping){
         for (let region in uniMapping["vert-CID"]){
             cid = uniMapping["vert-CID"][region]
-            // Get cell template
-            const templateCIDcell = document.querySelector("template#sample-cell");
             // Clone cell template
             const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
 
@@ -331,8 +332,6 @@ function buildRow(unichar){
     if ("HW-CID" in uniMapping){
         for (let region in uniMapping["HW-CID"]){
             cid = uniMapping["HW-CID"][region]
-            // Get cell template
-            const templateCIDcell = document.querySelector("template#sample-cell");
             // Clone cell template
             const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
 
@@ -360,30 +359,29 @@ function buildRow(unichar){
     }
 
     if ("PW-CID" in uniMapping){
-        // Get cell template
-        const templateCIDcell = document.querySelector("template#sample-cell");
-        // Clone cell template
-        const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
+        for (let region in uniMapping["PW-CID"]){
+            cid = uniMapping["PW-CID"][region]
+            // Clone cell template
+            const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
 
-        cidInfo = fontAI0[uniMapping["PW-CID"]]
-        cidName = cidInfo["name"]
-        // set cell language
-        cidcell.classList.add("cid-Mix")
-        // set cell OT feature, must be english for proportional ver
-        cidcell.querySelector(".cid-char").setAttribute("lang", "en")
-        cidcell.querySelector(".cid-char").innerText = unichar
-            
-        cidcell.querySelector(".cid-name").innerText = cidName
-        cidcell.querySelector(".cid-cid").innerText = "\\" + uniMapping["PW-CID"]
+            cidInfo = fontAI0[cid]
+            cidName = cidInfo["name"]
+            // set cell language
+            cidcell.classList.add("cid-Mix")
+            // set cell OT feature, must be english for proportional ver
+            cidcell.querySelector(".cid-char").setAttribute("lang", "en")
+            cidcell.querySelector(".cid-char").innerText = unichar
+                
+            cidcell.querySelector(".cid-name").innerText = cidName
+            cidcell.querySelector(".cid-cid").innerText = "\\" + cid
 
-        // add the cell into row
-        clone.querySelector(".cids").appendChild(cidcell)
+            // add the cell into row
+            clone.querySelector(".cids").appendChild(cidcell)
+        }
     }
 
     if ("extra" in uniMapping) {
         for (let cidNum of uniMapping["extra"]) {
-            // Get cell template
-            const templateCIDcell = document.querySelector("template#sample-cell");
             // Clone cell template
             const cidcell = templateCIDcell.content.firstElementChild.cloneNode(true);
             
