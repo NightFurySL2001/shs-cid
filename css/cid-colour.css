@@ -1,23 +1,18 @@
-.cid-JP .cid-char {
-    color: #d32f2f;
-}
-.cid-KR .cid-char {
-    color: #6245b2;
-}
-.cid-CN .cid-char {
-    color: #ffab00;
-}
-.cid-TW .cid-char {
-    color: #43a047;
-}
-.cid-HK .cid-char {
-    color: #2a3b93;
-}
-
-.cid-font-override-JP .cid-char {
+/* font overrides */
+.cid-font-override-JP .cid-char,
+.cid-JP0 .cid-char,
+.cid-JP1 .cid-char,
+.cid-JP2 .cid-char,
+.cid-JP3 .cid-char,
+.cid-JP4 .cid-char {
     font-family: var(--preview-font-forceJP);
 }
-.cid-font-override-KR .cid-char {
+.cid-font-override-KR .cid-char,
+.cid-KR0 .cid-char,
+.cid-KR1 .cid-char,
+.cid-KR2 .cid-char,
+.cid-KR3 .cid-char,
+.cid-KR4 .cid-char {
     font-family: var(--preview-font-forceKR);
 }
 .cid-font-override-CN .cid-char {
@@ -30,114 +25,149 @@
     font-family: var(--preview-font-forceHK);
 }
 
-.cid-JP1 .cid-char {
+/* colours */
+#rows-display {
+    color: black;
+}
+#rows-display.dark-mode {
+    background-color: black;
+    color: white;
+}
+#rows-display.coloured-text .cid-JP .cid-char {
+    color: #d32f2f;
+}
+#rows-display.coloured-text .cid-KR .cid-char {
+    color: #6245b2;
+}
+#rows-display.coloured-text .cid-CN .cid-char {
+    color: #ffab00;
+}
+#rows-display.coloured-text .cid-TW .cid-char {
+    color: #43a047;
+}
+#rows-display.coloured-text .cid-HK .cid-char {
+    color: #2a3b93;
+}
+#rows-display.dark-mode.coloured-text .cid-HK .cid-char {
+    color: #3552e2;
+}
+
+#rows-display.coloured-text .cid-JP1 .cid-char {
     color: #10dede;
-    font-family: var(--preview-font-forceJP);
 }
-.cid-JP2 .cid-char {
-    color: #0BA4B3;
-    font-family: var(--preview-font-forceJP);
+#rows-display.coloured-text .cid-JP2 .cid-char {
+    color: #0ba4b3;
 }
-.cid-JP3 .cid-char {
+#rows-display.coloured-text .cid-JP3 .cid-char {
     color: #078197;
-    font-family: var(--preview-font-forceJP);
 }
-.cid-JP4 .cid-char {
+#rows-display.coloured-text .cid-JP4 .cid-char {
     color: #057089;
-    font-family: var(--preview-font-forceJP);
 }
-.cid-JP0 .cid-char {
-    color: #035E7B;
-    font-family: var(--preview-font-forceJP);
+#rows-display.coloured-text .cid-JP0 .cid-char {
+    color: #035e7b;
 }
 
-.cid-KR1 .cid-char {
-    color: #E9FF70;
-    font-family: var(--preview-font-forceKR);
+#rows-display.coloured-text .cid-KR1 .cid-char {
+    color: #e9ff70;
 }
-.cid-KR2 .cid-char {
-    color: #D3E368;
-    font-family: var(--preview-font-forceKR);
+#rows-display.coloured-text .cid-KR2 .cid-char {
+    color: #d3e368;
 }
-.cid-KR3 .cid-char {
-    color: #BCC75F;
-    font-family: var(--preview-font-forceKR);
+#rows-display.coloured-text .cid-KR3 .cid-char {
+    color: #bcc75f;
 }
-.cid-KR4 .cid-char {
-    color: #8F8F4D;
-    font-family: var(--preview-font-forceKR);
+#rows-display.coloured-text .cid-KR4 .cid-char {
+    color: #8f8f4d;
 }
-.cid-KR0 .cid-char {
+#rows-display.coloured-text .cid-KR0 .cid-char {
     color: #525126;
-    font-family: var(--preview-font-forceKR);
 }
 
-.cid-Mix .cid-char {
-    color: #59344F;
+#rows-display.coloured-text .cid-Mix .cid-char {
+    color: #59344f;
+}
+#rows-display.dark-mode.coloured-text .cid-Mix .cid-char {
+    color: #D2B1CA;
 }
 
-
-#rows-display.outline-text .cid-JP .cid-char {
+#rows-display.outline-text .cid-char { /* general */
+    color: transparent;
+    -webkit-text-stroke: 1px black;
+}
+#rows-display.coloured-text.outline-text .cid-JP .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #d32f2f;
 }
-#rows-display.outline-text .cid-KR .cid-char {
+#rows-display.coloured-text.outline-text .cid-JP .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #d32f2f;
+}
+#rows-display.coloured-text.outline-text .cid-KR .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #6245b2;
 }
-#rows-display.outline-text .cid-CN .cid-char {
+#rows-display.coloured-text.outline-text .cid-CN .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #ffab00;
 }
-#rows-display.outline-text .cid-TW .cid-char {
+#rows-display.coloured-text.outline-text .cid-TW .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #43a047;
 }
-#rows-display.outline-text .cid-HK .cid-char {
+#rows-display.coloured-text.outline-text .cid-HK .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #2a3b93;
 }
-#rows-display.outline-text .cid-JP1 .cid-char {
+#rows-display.dark-mode.coloured-text.outline-text .cid-HK .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #3552e2;
+}
+#rows-display.coloured-text.outline-text .cid-JP1 .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #10dede;
 }
-#rows-display.outline-text .cid-JP2 .cid-char {
+#rows-display.coloured-text.outline-text .cid-JP2 .cid-char {
     color: transparent;
-    -webkit-text-stroke: 1px #0BA4B3;
+    -webkit-text-stroke: 1px #0ba4b3;
 }
-#rows-display.outline-text .cid-JP3 .cid-char {
+#rows-display.coloured-text.outline-text .cid-JP3 .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #078197;
 }
-#rows-display.outline-text .cid-JP4 .cid-char {
+#rows-display.coloured-text.outline-text .cid-JP4 .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #057089;
 }
-#rows-display.outline-text .cid-JP0 .cid-char {
+#rows-display.coloured-text.outline-text .cid-JP0 .cid-char {
     color: transparent;
-    -webkit-text-stroke: 1px #035E7B;
+    -webkit-text-stroke: 1px #035e7b;
 }
-#rows-display.outline-text .cid-KR1 .cid-char {
+#rows-display.coloured-text.outline-text .cid-KR1 .cid-char {
     color: transparent;
-    -webkit-text-stroke: 1px #E9FF70;
+    -webkit-text-stroke: 1px #e9ff70;
 }
-#rows-display.outline-text .cid-KR2 .cid-char {
+#rows-display.coloured-text.outline-text .cid-KR2 .cid-char {
     color: transparent;
-    -webkit-text-stroke: 1px #D3E368;
+    -webkit-text-stroke: 1px #d3e368;
 }
-#rows-display.outline-text .cid-KR3 .cid-char {
+#rows-display.coloured-text.outline-text .cid-KR3 .cid-char {
     color: transparent;
-    -webkit-text-stroke: 1px #BCC75F;
+    -webkit-text-stroke: 1px #bcc75f;
 }
-#rows-display.outline-text .cid-KR4 .cid-char {
+#rows-display.coloured-text.outline-text .cid-KR4 .cid-char {
     color: transparent;
-    -webkit-text-stroke: 1px #8F8F4D;
+    -webkit-text-stroke: 1px #8f8f4d;
 }
-#rows-display.outline-text .cid-KR0 .cid-char {
+#rows-display.coloured-text.outline-text .cid-KR0 .cid-char {
     color: transparent;
     -webkit-text-stroke: 1px #525126;
 }
-#rows-display.outline-text .cid-Mix .cid-char {
+#rows-display.coloured-text.outline-text .cid-Mix .cid-char {
     color: transparent;
-    -webkit-text-stroke: 1px #59344F;
+    -webkit-text-stroke: 1px #59344f;
+}
+#rows-display.dark-mode.coloured-text.outline-text .cid-Mix .cid-char {
+    color: transparent;
+    -webkit-text-stroke: 1px #D2B1CA;
 }

@@ -139,18 +139,27 @@
             </div>
             <div class="font-choice">
                 <label>
-                    <strong>Weight:</strong>
+                    <strong>字重 Weight:</strong>
                     <input type="range" min="200" max="900" value="400" class="slider" id="text-weight" name="text-weight" data-index="0" data-property="--preview-font-weight">
                     <input type="number" class="slider-output" data-index="0" value="400" style="width: 8ch">
                 </label>
-                <label style="margin-left:1em;">
-                    <strong>Font Size:</strong>
+                <label style="margin-left:2em;">
+                    <strong>字号 Font Size:</strong>
                     <input type="range" min="1" max="50" value="10" class="slider" id="text-size" name="text-size" data-index="1" data-property="--preview-font-size" data-unit="em">
                     <input type="number" class="slider-output" data-index="1" value="10" style="width: 4ch">
                 </label>
-                <label style="margin-left:1em;">
-                    <input type="checkbox" id="outline-toggle">
-                    <strong>字体描边 Outline Text</strong> (仅限可变版本 VF only)
+                <br>
+                <label>
+                    <input type="checkbox" id="outline-toggle" onchange="toggleRowDisplayClass(this, 'outline-text')">
+                    <strong>字体描边 Outline Text</strong>
+                </label>
+                <label style="margin-left:2em;">
+                    <input type="checkbox" id="outline-toggle" onchange="toggleRowDisplayClass(this, 'coloured-text')" checked>
+                    <strong>颜色 Colour</strong>
+                </label>
+                <label style="margin-left:2em;">
+                    <input type="checkbox" id="outline-toggle" onchange="toggleRowDisplayClass(this, 'dark-mode')">
+                    <strong>暗黑模式 Dark Mode</strong>
                 </label>
             </div>
             <!-- <div id="warning-banner">
@@ -160,7 +169,7 @@
                 <button id="warning-banner-close">OK, 隐藏 hide this</button>
             </div> -->
         </div>
-        <div id="rows-display">
+        <div id="rows-display" class="coloured-text">
             
         </div>
         <footer>
@@ -261,14 +270,14 @@
                 document.getElementById('searchtext').focus();
             }
         });
-        
-        // toggle outline text
-        document.getElementById('outline-toggle').addEventListener('change', function (e) {
-            if (e.target.checked) {
-                document.getElementById('rows-display').classList.add('outline-text');
+
+        const rowDisplayElement = document.getElementById('rows-display');
+        function toggleRowDisplayClass(el, className) {
+            if (el.checked) {
+                rowDisplayElement.classList.add(className);
             } else {
-                document.getElementById('rows-display').classList.remove('outline-text');
+                rowDisplayElement.classList.remove(className);
             }
-        });
+        }
     </script>
 </html>
