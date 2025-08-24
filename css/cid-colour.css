@@ -28,146 +28,166 @@
 /* colours */
 #rows-display {
     color: black;
-}
-#rows-display.dark-mode {
-    background-color: black;
-    color: white;
-}
-#rows-display.coloured-text .cid-JP .cid-char {
-    color: #d32f2f;
-}
-#rows-display.coloured-text .cid-KR .cid-char {
-    color: #6245b2;
-}
-#rows-display.coloured-text .cid-CN .cid-char {
-    color: #ffab00;
-}
-#rows-display.coloured-text .cid-TW .cid-char {
-    color: #43a047;
-}
-#rows-display.coloured-text .cid-HK .cid-char {
-    color: #2a3b93;
-}
-#rows-display.dark-mode.coloured-text .cid-HK .cid-char {
-    color: #3552e2;
-}
 
-#rows-display.coloured-text .cid-JP1 .cid-char {
-    color: #10dede;
-}
-#rows-display.coloured-text .cid-JP2 .cid-char {
-    color: #0ba4b3;
-}
-#rows-display.coloured-text .cid-JP3 .cid-char {
-    color: #078197;
-}
-#rows-display.coloured-text .cid-JP4 .cid-char {
-    color: #057089;
-}
-#rows-display.coloured-text .cid-JP0 .cid-char {
-    color: #035e7b;
-}
+    &.dark-mode {
+        background-color: black;
+        color: white;
+    }
 
-#rows-display.coloured-text .cid-KR1 .cid-char {
-    color: #e9ff70;
-}
-#rows-display.coloured-text .cid-KR2 .cid-char {
-    color: #d3e368;
-}
-#rows-display.coloured-text .cid-KR3 .cid-char {
-    color: #bcc75f;
-}
-#rows-display.coloured-text .cid-KR4 .cid-char {
-    color: #8f8f4d;
-}
-#rows-display.coloured-text .cid-KR0 .cid-char {
-    color: #525126;
-}
+    &.coloured-text {
+        .cid-JP .cid-char {
+            color: #d32f2f;
+        }
+        .cid-KR .cid-char {
+            color: #6245b2;
+        }
+        .cid-CN .cid-char {
+            color: #ffab00;
+        }
+        .cid-TW .cid-char {
+            color: #43a047;
+        }
+        .cid-HK .cid-char {
+            color: #2a3b93;
+        }
 
-#rows-display.coloured-text .cid-Mix .cid-char {
-    color: #59344f;
-}
-#rows-display.dark-mode.coloured-text .cid-Mix .cid-char {
-    color: #D2B1CA;
-}
+        .cid-JP1 .cid-char {
+            color: #2DF0F0;
+        }
+        .cid-JP2 .cid-char {
+            color: #10dede;
+        }
+        .cid-JP3 .cid-char {
+            color: #0ba4b3;
+        }
+        .cid-JP4 .cid-char {
+            color: #078197;
+        }
+        .cid-JP0 .cid-char {
+            color: #057089;
+        }
 
-#rows-display.outline-text .cid-char { /* general */
-    color: transparent;
-    -webkit-text-stroke: 1px black;
-}
-#rows-display.coloured-text.outline-text .cid-JP .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #d32f2f;
-}
-#rows-display.coloured-text.outline-text .cid-JP .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #d32f2f;
-}
-#rows-display.coloured-text.outline-text .cid-KR .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #6245b2;
-}
-#rows-display.coloured-text.outline-text .cid-CN .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #ffab00;
-}
-#rows-display.coloured-text.outline-text .cid-TW .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #43a047;
-}
-#rows-display.coloured-text.outline-text .cid-HK .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #2a3b93;
-}
-#rows-display.dark-mode.coloured-text.outline-text .cid-HK .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #3552e2;
-}
-#rows-display.coloured-text.outline-text .cid-JP1 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #10dede;
-}
-#rows-display.coloured-text.outline-text .cid-JP2 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #0ba4b3;
-}
-#rows-display.coloured-text.outline-text .cid-JP3 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #078197;
-}
-#rows-display.coloured-text.outline-text .cid-JP4 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #057089;
-}
-#rows-display.coloured-text.outline-text .cid-JP0 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #035e7b;
-}
-#rows-display.coloured-text.outline-text .cid-KR1 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #e9ff70;
-}
-#rows-display.coloured-text.outline-text .cid-KR2 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #d3e368;
-}
-#rows-display.coloured-text.outline-text .cid-KR3 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #bcc75f;
-}
-#rows-display.coloured-text.outline-text .cid-KR4 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #8f8f4d;
-}
-#rows-display.coloured-text.outline-text .cid-KR0 .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #525126;
-}
-#rows-display.coloured-text.outline-text .cid-Mix .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #59344f;
-}
-#rows-display.dark-mode.coloured-text.outline-text .cid-Mix .cid-char {
-    color: transparent;
-    -webkit-text-stroke: 1px #D2B1CA;
+        .cid-KR1 .cid-char {
+            color: #e9ff70;
+        }
+        .cid-KR2 .cid-char {
+            color: #d3e368;
+        }
+        .cid-KR3 .cid-char {
+            color: #bcc75f;
+        }
+        .cid-KR4 .cid-char {
+            color: #8f8f4d;
+        }
+        .cid-KR0 .cid-char {
+            color: #525126;
+        }
+
+        .cid-Mix .cid-char {
+            color: #59344f;
+        }
+
+        &.dark-mode {
+            &.coloured-text {
+                .cid-HK .cid-char {
+                    color: #3552e2;
+                }
+                .cid-Mix .cid-char {
+                    color: #d2b1ca;
+                }
+            }
+        }
+    }
+
+    &.outline-text {
+        .cid-char {
+            color: transparent;
+            -webkit-text-stroke: 1px black;
+        }
+
+        &.coloured-text {
+            .cid-JP .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #d32f2f;
+            }
+            .cid-KR .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #6245b2;
+            }
+            .cid-CN .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #ffab00;
+            }
+            .cid-TW .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #43a047;
+            }
+            .cid-HK .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #2a3b93;
+            }
+            .cid-JP1 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #2DF0F0;
+            }
+            .cid-JP2 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #10dede;
+            }
+            .cid-JP3 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #0ba4b3;
+            }
+            .cid-JP4 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #078197;
+            }
+            .cid-JP0 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #057089;
+            }
+            .cid-KR1 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #e9ff70;
+            }
+            .cid-KR2 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #d3e368;
+            }
+            .cid-KR3 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #bcc75f;
+            }
+            .cid-KR4 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #8f8f4d;
+            }
+            .cid-KR0 .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #525126;
+            }
+            .cid-Mix .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px #59344f;
+            }
+        }
+
+        &.dark-mode {
+            .cid-char {
+                color: transparent;
+                -webkit-text-stroke: 1px white ;
+            }
+            
+            &.coloured-text {
+                .cid-HK .cid-char {
+                    color: transparent;
+                    -webkit-text-stroke: 1px #3552e2;
+                }
+                .cid-Mix .cid-char {
+                    color: transparent;
+                    -webkit-text-stroke: 1px #d2b1ca;
+                }
+            }
+        }
+    }
 }
